@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boollan.dao.IHomeShowDao">
+
+    <!--配置实体类数据-->
+    <resultMap id="BaseUserResult" type="com.boollan.domain.home_show">
+        <id column="ID" property="id" jdbcType="VARCHAR"/>
+        <result column="HOMETITE" property="hometite" jdbcType="VARCHAR"/>
+        <result column="HOMETEXT" property="homeText" jdbcType="VARCHAR"/>
+        <result column="IMG_1" property="imge_1" jdbcType="VARCHAR"/>
+        <result column="IMG_2" property="imge_2" jdbcType="VARCHAR"/>
+        <result column="IMG_3" property="imge_3" jdbcType="VARCHAR"/>
+        <result column="UPDATA_TIME" property="updata_time" jdbcType="VARCHAR"/>
+    </resultMap>
+    <update id="updateHomeShow" parameterType="com.boollan.domain.home_show">
+        update home_show set HomeTite=#{hometite},HomeText=#{homeText},imge_1=#{imge_1},imge_2=#{imge_2},imge_3=#{imge_3},updata_time=#{updata_time} where id=1
+    </update>
+    <select id="findInfoByHome" resultType="com.boollan.domain.home_show">
+        select * from home_show where id=1
+    </select>
+
+
+</mapper>

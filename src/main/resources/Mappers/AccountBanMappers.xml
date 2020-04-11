@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boollan.dao.IAccountBanDao">
+
+    <!--配置实体类数据-->
+    <resultMap id="BaseUserResult" type="com.boollan.domain.account_ban">
+        <id column="ID" property="id" jdbcType="VARCHAR"/>
+        <result column="ACCOUNT_BAN" property="accout_ban" jdbcType="VARCHAR"/>
+        <result column="BAN_TIME" property="ban_time" jdbcType="VARCHAR"/>
+        <result column="IS_BAN" property="is_ban" jdbcType="VARCHAR"/>
+    </resultMap>
+    <insert id="insertBanUser" parameterType="com.boollan.domain.account_ban">
+        insert into accout_ban(accout_ban,ban_time,is_ban)values(#{accout_ban},#{ban_time},#{is_ban})
+    </insert>
+    <update id="updateBanUserInfo" parameterType="com.boollan.domain.account_ban">
+        update accout_ban set ban_time=#{ban_time},is_ban=#{is_ban} where accout_ban=#{accout_ban}
+    </update>
+    <select id="findBanUserByName" resultType="com.boollan.domain.account_ban">
+        select * from accout_ban where accout_ban=#{username}
+    </select>
+    <select id="findAllBanUser" resultType="com.boollan.domain.account_ban">
+        select * from accout_ban
+    </select>
+
+</mapper>

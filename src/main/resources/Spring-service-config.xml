@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="userService" class="com.boollan.service.impl.AccountUserService">
+        <property name="userDao" ref="IAccountUserDao"/>
+    </bean>
+
+    <bean id="banService" class="com.boollan.service.impl.AccountBanService">
+        <property name="banDao" ref="IAccountBanDao"/>
+    </bean>
+
+    <bean id="CdkService" class="com.boollan.service.impl.AccountCdkService">
+        <property name="cdkDao" ref="IAccountCdkDao"/>
+    </bean>
+
+    <bean id="codeService" class="com.boollan.service.impl.EmailCodeService">
+        <property name="codeDao" ref="IEmailCodeDao"/>
+    </bean>
+    <bean id="homeShowService" class="com.boollan.service.impl.HomeShowService">
+        <property name="showDao" ref="IHomeShowDao"/>
+    </bean>
+    <bean id="recordService" class="com.boollan.service.impl.LoginRecordService">
+        <property name="recordDao" ref="ILoginRecordDao"/>
+    </bean>
+
+</beans>

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:bean="http://www.springframework.org/schema/context" xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!--读取数据库配置文件-->
+    <context:property-placeholder location="classpath:db.properties"/>
+    <!--配置数据源-->
+    <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource">
+        <property name="driverClassName" value="${jdbc.driver}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+        <!--最大连接数-->
+        <property name="maxTotal" value="${jdbc.maxTotal}"/>
+        <!--空闲连接数-->
+        <property name="maxIdle" value="${jdbc.maxIdle}"/>
+        <!--初始连接数-->
+        <property name="initialSize" value="${jdbc.initialSize}"/>
+    </bean>
+
+    <!--开启事物管理器-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!--开启事物注解-->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+
+    <!-- spring和MyBatis完美整合，不需要mybatis的配置映射文件 -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <!-- 引入数据源 -->
+        <property name="dataSource" ref="dataSource"/>
+        <!-- 自动扫描mapping.xml文件 -->
+        <property name="mapperLocations" value="classpath:Mappers/*.xml"/>
+    </bean>
+
+    <!--Mapper代理开发(基于 MapperScannerConfigurer)-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.boollan.dao"/>
+    </bean>
+
+
+    <!--配置服务器邮箱的发送类-->
+    <bean name="sendEmail" class="com.boollan.util.module.SendEmail">
+        <property name="myEmailSMTPHost" value="smtp.163.com"/>
+        <property name="myEmailAccount" value="wyzaoz@163.com"/>
+        <property name="myEmailPassword" value="xiaowei123"/>
+    </bean>
+
+    <bean name="accountEmail" class="com.boollan.Servlet.ApiMethod.Impl.AccountEmail">
+        <property name="sendEmail" ref="sendEmail"/>
+        <property name="email_Title" value="注册"/>
+        <property name="email_SendName" value="依梦汉化组"/>
+        <property name="email_boey" value="您的验证码为：xxxxxx"/>
+    </bean>
+    <!--实体类配置-->
+    <bean class="com.boollan.domain.account_ban" name="account_ban"/>
+    <bean class="com.boollan.domain.account_cdk" name="account_cdk"/>
+    <bean class="com.boollan.domain.account_user" name="account_user"/>
+    <bean class="com.boollan.domain.emailcode" name="emailcode"/>
+    <bean class="com.boollan.domain.home_show" name="home_show"/>
+    <bean class="com.boollan.domain.login_record" name="login_record"/>
+
+
+    <!--配置自动扫描-->
+    <bean:component-scan base-package="com.*"/>
+
+</beans>

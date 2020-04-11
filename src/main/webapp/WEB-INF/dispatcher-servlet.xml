@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd">
+    <!--获取其他配置文件的Bean对象-->
+    <import resource="classpath:Spring-config.xml"/>
+    <import resource="classpath:Spring-servlet-config.xml"/>
+    <import resource="classpath:Spring-service-config.xml"/>
+
+    <!--加载驱动 @Controller -->
+    <mvc:annotation-driven/>
+
+    <!--扫描@RequestMapping的注解-->
+    <context:component-scan base-package="com.boollan.controller"/>
+
+
+    <!-- StringHttpMessageConverter编码为UTF-8，防止乱码 -->
+    <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+        <constructor-arg value="UTF-8"/>
+        <property name="supportedMediaTypes">
+            <list>
+                <bean class="org.springframework.http.MediaType">
+                    <constructor-arg index="0" value="text"/>
+                    <constructor-arg index="1" value="plain"/>
+                    <constructor-arg index="2" value="UTF-8"/>
+                </bean>
+                <bean class="org.springframework.http.MediaType">
+                    <constructor-arg index="0" value="*"/>
+                    <constructor-arg index="1" value="*"/>
+                    <constructor-arg index="2" value="UTF-8"/>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <!--依赖注入：由于无法使用注解方式注入，只能使用XML方式-->
+    <bean class="com.boollan.controller.AdminInfo">
+        <property name="accountMethod" ref="accountMethod"/>
+        <property name="accountUserService" ref="userService"/>
+        <property name="accountCdk" ref="accountCdk"/>
+        <property name="accountCdkService" ref="CdkService"/>
+        <property name="accountLoginRecord" ref="accountLoginRecord"/>
+    </bean>
+
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="10485760"/>
+        <property name="defaultEncoding" value="UTF-8"/>
+    </bean>
+    
+    
+    <bean class="com.boollan.controller.FileUploadController"/>
+    <bean class="com.boollan.controller.Account"/>
+    <bean class="com.boollan.controller.Admin"/>
+    <bean class="com.boollan.controller.HomeInfo">
+        <property name="homeShow" ref="homeShow"/>
+        <property name="accountMethod" ref="accountMethod"/>
+        <property name="regularVerify" ref="regularVerify"/>
+    </bean>
+    <bean class="com.boollan.controller.AccountInfo">
+        <property name="accountMethod" ref="accountMethod"/>
+        <property name="accountCdk" ref="accountCdk"/>
+        <property name="accountUserService" ref="userService"/>
+        <property name="accountCdkService" ref="CdkService"/>
+    </bean>
+
+    <!--静态资源配置-->
+    <mvc:resources mapping="/bootstrap-3.3.7-dist/**" location="/WEB-INF/page/bootstrap-3.3.7-dist/"/>
+    <mvc:resources mapping="/js/**" location="/WEB-INF/page/js/"/>
+    <mvc:resources mapping="/upload/**" location="/WEB-INF/page/upload/"/>
+    <!--404页面资源配置-->
+    <mvc:resources mapping="/error/**" location="/WEB-INF/page/error/404/"/>
+
+    <!-- 定义跳转的文件的前后缀 ，视图模式配置 -->
+    <bean id="viewResolver"
+          class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <!-- 前缀和后缀，变成一个可用的url地址 -->
+        <property name="prefix" value="/WEB-INF/page/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <!--MVC配置文件上传解析器-->
+    <bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="defaultEncoding" value="UTF-8"/>
+        <property name="maxUploadSize" value="102400000"/>
+    </bean>
+
+
+</beans>
