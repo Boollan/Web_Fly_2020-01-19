@@ -2,7 +2,7 @@
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <footer class="footer">
-    <p>® Registered: <a href="https://blogs.boollan.pro/">依梦汉化组</a>，by<a href="http://getbootstrap.com">Bootstrap</a>.
+    <p>® Registered: <a href="https://blogs.boollan.pro/">依梦汉化组</a>，by<a href="http://getbootstrap.com">Bootstrap</a>，2020 Company, Inc.
     </p>
 </footer>
 </div> <!-- /container -->
@@ -19,7 +19,7 @@ function creatXMLHttpRequest() {
             try {
                 return ActiveXObject("Microsoft.XMLHTTP");//IE5.5以及更早版本
             } catch (e) {
-                alert("您的浏览器不支持，请更换Chrome浏览器！")
+                alert("您的浏览器不支持，请更换Chrome浏览器！");
                 throw e;
             }
         }

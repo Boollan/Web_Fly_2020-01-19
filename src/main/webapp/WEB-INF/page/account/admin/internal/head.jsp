@@ -39,6 +39,7 @@
 <%--    <script src="/bootstrap-3.3.7-dist/ckeditor/ckeditor.js"></script>--%>
 <%--    <script src="/bootstrap-3.3.7-dist/ckeditor/translations/zh-cn.js"></script>--%>
     <script src="https://cdn.ckeditor.com/ckeditor5/16.0.0/classic/ckeditor.js"></script>
+    <script src="https://cdn.bootcss.com/jquery/3.5.0/jquery.js"></script>
 </head>
 
 <body>
@@ -60,9 +61,11 @@
         </nav>
         <%
             Object userName = session.getAttribute("UserName");
-            if (Integer.parseInt(session.getAttribute("permissions").toString())>=3){
-                if (userName != null) {
-                    out.print("<h3 class=\"text-muted\">" + "管理员:" + userName + "</h3>");
+            if (session.getAttribute("UserName")!=null){
+                if (Integer.parseInt(session.getAttribute("permissions").toString())>=3){
+                    if (userName != null) {
+                        out.print("<h3 class=\"text-muted\">" + "管理员:" + userName + "</h3>");
+                    }
                 }
             }else {
                 response.sendRedirect("/");

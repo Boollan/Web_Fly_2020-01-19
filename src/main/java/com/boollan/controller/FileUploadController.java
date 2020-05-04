@@ -48,7 +48,6 @@ public class FileUploadController {
                 //如果文件夹不存在则创建文件夹
                 if (!filePath.exists()) {
                     filePath.mkdirs();
-
                 }
                 //使用UUID重新命名上传的文件的名称(上传人_uuid_初始化文件名称)
                 String newFileName = "/" + name + "_" + UUID.randomUUID()+originalFilename.substring(originalFilename.lastIndexOf("."));

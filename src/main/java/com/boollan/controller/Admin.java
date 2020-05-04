@@ -111,5 +111,15 @@ public class Admin {
         return new ModelAndView("account/admin/module/other_module/admin_other_user_ban");
     }
 
+    /**
+     * 首页管理页面
+     * @return 返回页面
+     */
+    @RequestMapping(value = "/otherHomeManagement")
+    @ResponseBody
+    public ModelAndView otherHomeManagement(){
+        return new ModelAndView("account/admin/module/other_module/admin_other_home_management");
+    }
+
 
 }

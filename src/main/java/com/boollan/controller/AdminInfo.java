@@ -7,11 +7,16 @@ import java.io.UnsupportedEncodingException;
 import com.boollan.Servlet.ApiMethod.IAccountCdk;
 import com.boollan.Servlet.ApiMethod.IAccountLoginRecord;
 import com.boollan.Servlet.ApiMethod.IAccountMethod;
+import com.boollan.Servlet.ApiMethod.IHomeShow;
 import com.boollan.Servlet.ApiMethod.Impl.AccountCdk;
 import com.boollan.domain.account_cdk;
 import com.boollan.domain.account_user;
+import com.boollan.domain.home_show;
+import com.boollan.domain.login_record;
 import com.boollan.service.IAccountCdkService;
 import com.boollan.service.IAccountUserService;
+import com.boollan.service.IHomeShowService;
+import com.boollan.service.ILoginRecordService;
 import com.boollan.util.module.encryption;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -44,7 +49,23 @@ public class AdminInfo {
     private IAccountUserService accountUserService;
     private IAccountCdk accountCdk;
     private IAccountCdkService accountCdkService;
-    private IAccountLoginRecord accountLoginRecord;
+
+    public void setRecordService(ILoginRecordService recordService) {
+        this.recordService = recordService;
+    }
+
+    private ILoginRecordService recordService;
+    private IHomeShow homeShow;
+
+    public void setHomeShowService(IHomeShowService homeShowService) {
+        this.homeShowService = homeShowService;
+    }
+
+    private IHomeShowService homeShowService;
+
+    public void setHomeShow(IHomeShow homeShow) {
+        this.homeShow = homeShow;
+    }
 
     public void setAccountMethod(IAccountMethod accountMethod) {
         this.accountMethod = accountMethod;
@@ -62,9 +83,6 @@ public class AdminInfo {
         this.accountCdkService = accountCdkService;
     }
 
-    public void setAccountLoginRecord(IAccountLoginRecord accountLoginRecord) {
-        this.accountLoginRecord = accountLoginRecord;
-    }
 
     /**
      * 获取账号信息
@@ -264,7 +282,6 @@ public class AdminInfo {
                 cdkInfo.put("overduetime", account_cdk.getOverduetime().toString());
                 cdkInfo.put("return", true);
                 cdkInfo.put(message, "获取成功!");
-                System.out.println(cdkInfo);
                 return new ModelAndView(new MappingJackson2JsonView(), cdkInfo);
             }
             map.put("return", false);
@@ -282,25 +299,87 @@ public class AdminInfo {
      * @param request 请求体
      * @return 返回数据
      */
-    @RequestMapping(value = "/sendLoginLog", method = {RequestMethod.GET, RequestMethod.POST}, produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/sendLoginLog", method = {RequestMethod.GET}, produces = "application/json;charset=UTF-8")
     @ResponseBody
     public String sendLoginLog(HttpServletRequest request) {
         Map<String, Object> map = new HashMap<>();
+        try {
+            //最大页数
+            Integer length;
+            //每页数量
+            Integer number = 20;
+            //验证管理员权限
+            if (accountMethod.verifyAdminPermissions(request)) {
+                List<login_record> username = recordService.findLoginLogbyUser(request.getParameter("username"));
+                //获取第几页
+                Integer pc = Integer.parseInt(request.getParameter("pc"));
+                if (username != null) {
+                    JSONObject response = new JSONObject();
+                    JSONArray jsonArray = new JSONArray();
+                    length = username.size() / number;
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                    for (int i = number * (pc - 1); i < number * pc; i++) {
+                        JSONObject json = new JSONObject();
+                        login_record login_record = username.get(i);
+                        json.put("result_Username", login_record.getUsername());
+                        json.put("result_AddIp", login_record.getAddip());
+                        json.put("result_Client", login_record.getClient());
+                        json.put("result_Datetime", sdf.format(login_record.getDatetime().getTime()));
+                        json.put("result_Id", login_record.getId());
+                        jsonArray.add(json);
+                    }
+                    response.put("result",jsonArray);
+                    response.put("pcSize",length);
+                    response.put("return",true);
+                    return response.toString();
+                }
+                map.put("return", false);
+                map.put(message, "没有查询到该用户!");
+                return map.toString();
+            }
+            map.put("return", false);
+            map.put(message, "您无权使用此接口!");
+            return map.toString();
+        }catch (Exception e){
+            map.put("return", false);
+            map.put(message, "参数异常!");
+            map.put("errormessage",e.getMessage());
+            return map.toString();
+        }
+    }
+
+    /**
+     * 更新首页信息
+     *
+     * @param request 请求体
+     * @return 返回数据
+     */
+    @RequestMapping(value = "/SetHomeShow", method = {RequestMethod.GET, RequestMethod.POST}, produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public ModelAndView updateHomeShow(HttpServletRequest request) {
+        Map<String, Object> mapinfo = new HashMap<String, Object>();
+
+        String titletext = request.getParameter("titletext");
+        String hometxt = request.getParameter("hometxt");
         //验证管理员权限
         if (accountMethod.verifyAdminPermissions(request)) {
-            String username = request.getParameter("username");
-            if (username != null) {
-                JSONArray loginLogbyUser = accountLoginRecord.findLoginLogbyUser(username);
-                
-                return loginLogbyUser.toJSONString();
-            }else {
-                JSONArray allLoginUserLog = accountLoginRecord.findAllLoginUserLog();
-                return allLoginUserLog.toJSONString();
+            //非空验证
+            if (titletext != null && hometxt != null) {
+                home_show infoByHome = homeShowService.findInfoByHome();
+                infoByHome.setHometite(titletext);
+                infoByHome.setHomeText(hometxt);
+                homeShow.SetInfoData(infoByHome);
+                mapinfo.put("return", true);
+                mapinfo.put(message, "数据更新成功!");
+                return new ModelAndView(new MappingJackson2JsonView(), mapinfo);
             }
+            mapinfo.put("return", false);
+            mapinfo.put(message, "参数内容不能为Null!");
+            return new ModelAndView(new MappingJackson2JsonView(), mapinfo);
         }
-        map.put("return", false);
-        map.put(message, "您无权使用此接口!");
-        return map.toString();
+        mapinfo.put("return", false);
+        mapinfo.put(message, "您无权使用此接口!");
+        return new ModelAndView(new MappingJackson2JsonView(), mapinfo);
     }
 
 

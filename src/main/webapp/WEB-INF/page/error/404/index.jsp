@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Free Bootstrap Error Template</title>
+    <title>Error</title>
     <!-- Bootstrap core CSS -->
     <link href="/error/css/bootstrap.css" rel="stylesheet">
     <!-- FONT AWESOME CSS -->
@@ -25,7 +25,7 @@
         <div class="col-md-6 col-md-offset-3 text-center">
             <h5> 您访问的页面不存在</h5>
             <span id="error-link"></span>
-            <h2>! 访问错误的地址 !</h2>
+            <h2>访问错误的地址</h2>
             <h2><a href="/">返回首页</a></h2>
         </div>
     </div>

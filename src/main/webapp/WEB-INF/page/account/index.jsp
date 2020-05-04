@@ -5,13 +5,6 @@
         <div class="panel-body text-center">
             <div class="col-lg-11 ">
                 <ul class=" col-lg-pull-5">
-                    <div class="row">
-                        <div class="col-lg-2 col-md-2">
-                            <a class="thumbnail">
-                                <img src="/upload/Boollan_48dd4c0a-cc29-46dc-9849-0f32593c2ac4.jpg" alt="...">
-                            </a>
-                        </div>
-                    </div>
                     <li class="list-group-item" style="text-align:center;background-color: #337AB7; color: white;">用户名
                     </li>
                     <li class="list-group-item" id="accout_username" style="font-size: 18px">...</li>

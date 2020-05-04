@@ -11,8 +11,9 @@
 <div class="panel panel-default">
     <div class="panel-heading">
         <ul class="nav nav-pills" role="tablist">
-            <li role="presentation" class="active"><a href="#">首页内容</a></li>
-            <li role="presentation" ><a href="/account/admin/otherUserBanManagement">封禁系统</a></li>
+            <li role="presentation" class="active"><a href="/account/admin/otherManagement">首页内容</a></li>
+            <li role="presentation"><a href="/account/admin/otherUserBanManagement">封禁系统</a></li>
+            <li role="presentation" ><a href="/account/admin/otherHomeManagement">首页图片管理</a></li>
         </ul>
     </div>
     <div class="panel-body">
@@ -51,7 +52,6 @@
     var hometext = myEditor.getData();//内容;
     var submu = document.getElementById("submu");
     submu.onclick = function () {
-        alert(myEditor.getData());
 
 
         /**
@@ -68,7 +68,7 @@
          * 指定请求URL
          * 指定是否为异步请求
          */
-        xmlhttp.open("POST", "/Accout/Admin/SetHomeShow", false);
+        xmlhttp.open("POST", "/account/admin/api/SetHomeShow", false);
         /**
          * 设置请求头
          */
@@ -87,7 +87,7 @@
             var text = xmlhttp.responseText;
 
             var json = eval("(" + text + ")");//将字符串转换为JSON对象
-            if (json.key == true) {
+            if (json.return) {
                 alert("修改成功")
             } else {
                 alert("修改失败");

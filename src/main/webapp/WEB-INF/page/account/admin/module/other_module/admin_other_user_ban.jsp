@@ -12,7 +12,8 @@
     <div class="panel-heading">
         <ul class="nav nav-pills" role="tablist">
             <li role="presentation" ><a href="/account/admin/otherManagement">首页内容</a></li>
-            <li role="presentation" class="active"><a href="#">封禁系统</a></li>
+            <li role="presentation" class="active"><a href="/account/admin/otherUserBanManagement">封禁系统</a></li>
+            <li role="presentation"><a href="/account/admin/otherHomeManagement">首页图片管理</a></li>
         </ul>
     </div>
     <div class="panel-body">

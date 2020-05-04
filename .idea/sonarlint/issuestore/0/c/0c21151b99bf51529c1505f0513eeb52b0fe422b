@@ -1,0 +1,15 @@
+
+n	java:S117–"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(˜¢ó·8Åá‘†—.
+K
+java:S1128"0Remove this unused import 'java.io.IOException'.(ªº»Úıÿÿÿÿ
+n	java:S117Ã"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Î¨Àå8ûßèˆ˜.
+e
+java:S1128"JRemove this unused import 'com.boollan.Servlet.ApiMethod.Impl.AccountCdk'.(îñ¨ıÿÿÿÿ
+Y
+java:S1128"CRemove this unused import 'javax.servlet.http.HttpServletResponse'.(Á¨ïë
+Q
+java:S1128";Remove this unused import 'javax.servlet.http.HttpSession'.(í¨ô
+p
+java:S1128"NRemove this unused import 'com.boollan.Servlet.ApiMethod.IAccountLoginRecord'.(–Ìˆúüÿÿÿÿ8³‡Î„˜.
+w
+java:S2293è"YReplace the type specification in this constructor call with the diamond operator ("<>").(¨‘¡†8ûßèˆ˜.

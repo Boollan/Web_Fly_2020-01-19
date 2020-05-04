@@ -63,6 +63,17 @@ public class HomeInfo {
     }
 
     /**
+     * 获取首页内容展示数据
+     * @return true
+     */
+    @RequestMapping(path = "/HomeShowText")
+    public ModelAndView getHomeInfo() {
+        Map<String, Object> stringObjectMap = homeShow.GetInfoData();
+        return new ModelAndView(new MappingJackson2JsonView(), stringObjectMap);
+    }
+
+
+    /**
      * 警告页面
      * @return true
      */
@@ -253,5 +264,15 @@ public class HomeInfo {
         return new ModelAndView(new MappingJackson2JsonView(), map);
     }
 
+
+
+    /**
+     * 登录页面
+     * @return true
+     */
+    @RequestMapping(path = "/React")
+    public ModelAndView getReact() {
+        return new ModelAndView("React");
+    }
 
 }
