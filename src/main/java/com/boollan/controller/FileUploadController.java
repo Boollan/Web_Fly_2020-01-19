@@ -24,13 +24,15 @@ import java.util.UUID;
 public class FileUploadController {
     /**
      * 用于文件上传的类
-     * @param name 发生人的名称
      * @param uploadFile 文件的二进制数据
      * @param request 请求头
      * @return 返回状态码
      */
-    @RequestMapping(value = "/fileUpload")
-    public ModelAndView handleFormUpload(@RequestParam("name") String name, @RequestParam("uploadFile") List<MultipartFile> uploadFile, HttpServletRequest request) {
+    @RequestMapping(value = "/fileUpload",method = {RequestMethod.POST, RequestMethod.GET})
+    public ModelAndView handleFormUpload(@RequestParam("uploadFile") List<MultipartFile> uploadFile, HttpServletRequest request) {
+
+         String username1 = request.getParameter("username");
+        System.out.println(username1);
         //判定文件是否存在
         Map<String, String> info = new HashMap<>();
         String message = "message";
@@ -50,7 +52,7 @@ public class FileUploadController {
                     filePath.mkdirs();
                 }
                 //使用UUID重新命名上传的文件的名称(上传人_uuid_初始化文件名称)
-                String newFileName = "/" + name + "_" + UUID.randomUUID()+originalFilename.substring(originalFilename.lastIndexOf("."));
+                String newFileName = "/" + "boollan" + "_" + UUID.randomUUID()+originalFilename.substring(originalFilename.lastIndexOf("."));
                 try {
                     //使用MultipartFile接口完成文件上传到指定位置
                     file.transferTo(new File(dirPath + newFileName));

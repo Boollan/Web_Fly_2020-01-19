@@ -1,16 +1,16 @@
 package com.boollan.util.module;
 
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-
 import javax.servlet.http.HttpServletRequest;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 
 
-public class encryption {
+/**
+ * @author Boollan
+ */
+public class Encryption {
 
     /**
      * 16进制字符
@@ -29,8 +29,8 @@ public class encryption {
     /**
      * 将普通字符串用md5加密，并转化为16进制字符串
      *
-     * @param str
-     * @return
+     * @param str 明文
+     * @return 加密后
      */
     public static String StringInMd5(String str) {
 
@@ -71,8 +71,8 @@ public class encryption {
      * <p>
      * 用户真实IP为： 192.168.1.110
      *
-     * @param request
-     * @return
+     * @param request 请求头
+     * @return IP
      */
     public static String getIpAddress(HttpServletRequest request) {
         String ip = request.getHeader("x-forwarded-for");
@@ -94,6 +94,33 @@ public class encryption {
         return ip;
 
     }
+
+
+    /**
+     * 获取通过CDN访问网站获取用户真实IP地址
+     * @param request
+     * @return
+     */
+    public static String getIpAddressCdn(HttpServletRequest request) {
+        String address = request.getHeader("X-Forwarded-For");
+        if (address != null && address.length() > 0
+                && !"unknown".equalsIgnoreCase(address)) {
+            return address;
+        }
+        address = request.getHeader("Proxy-Client-IP");
+        if (address != null && address.length() > 0
+                && !"unknown".equalsIgnoreCase(address)) {
+            return address;
+        }
+        address = request.getHeader("WL-Proxy-Client-IP");
+        if (address != null && address.length() > 0
+                && !"unknown".equalsIgnoreCase(address)) {
+            return address;
+        }
+        return request.getRemoteAddr();
+    }
+
+
 
     /**
      * @param src 要加密的字符串

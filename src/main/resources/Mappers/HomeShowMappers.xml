@@ -14,6 +14,7 @@
         <result column="IMG_3" property="imge_3" jdbcType="VARCHAR"/>
         <result column="UPDATA_TIME" property="updata_time" jdbcType="VARCHAR"/>
     </resultMap>
+
     <update id="updateHomeShow" parameterType="com.boollan.domain.home_show">
         update home_show set HomeTite=#{hometite},HomeText=#{homeText},imge_1=#{imge_1},imge_2=#{imge_2},imge_3=#{imge_3},updata_time=#{updata_time} where id=1
     </update>

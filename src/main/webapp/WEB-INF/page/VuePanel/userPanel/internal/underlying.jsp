@@ -14,10 +14,10 @@
 
             <button class="uk-offcanvas-close" type="button" uk-close></button>
 
-            <h3>开源贡献</h3>
-            <p> <span class="uk-margin-small-right" uk-icon="github"></span>https://github.com/twbs/bootstrap</p>
+            <h3>Boollan Build</h3>
+            <p> <span class="uk-margin-small-right" uk-icon="github"></span><a href="https://github.com/Boollan/Web_Fly_2020-01-19">项目开源</a> </p>
             <h3>外部库:</h3>
-            <p> <span class="uk-margin-small-right" uk-icon="github"></span>https://github.com/twbs/bootstrap</p>
+            <p> <span class="uk-margin-small-right" uk-icon="github"></span><a href="https://github.com/twbs/bootstrap">bootstrap</a></p>
             <p> <span class="uk-margin-small-right" uk-icon="github"></span>https://github.com/twbs/bootstrap</p>
             <p> <span class="uk-margin-small-right" uk-icon="github"></span>https://github.com/twbs/bootstrap</p>
             <p> <span class="uk-margin-small-right" uk-icon="github"></span>https://github.com/twbs/bootstrap</p>

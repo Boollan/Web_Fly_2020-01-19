@@ -3,11 +3,9 @@ package com.boollan.Servlet.ApiMethod.Impl;
 import com.boollan.Servlet.ApiMethod.IAccountLoginRecord;
 import com.boollan.domain.login_record;
 import com.boollan.service.ILoginRecordService;
-import com.boollan.util.module.encryption;
+import com.boollan.util.module.Encryption;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
@@ -63,27 +61,22 @@ public class AccountLoginRecord implements IAccountLoginRecord {
 
     @Override
     public JSONArray finLogUserInfo(String username, Date startTime, Date endTime, String Client) {
-        System.out.println(1);
         if (username !=null&&startTime!=null &&endTime != null&&Client!=null){
-            System.out.println(2);
             JSONArray jsonArray = new JSONArray();
             //获取当前用户信息
             List<login_record> loginLogbyUser = ILoginRecordService.findLoginLogbyUser(username);
-            System.out.println(3);
             //数据遍历
             for (int i= 0; i < loginLogbyUser.size(); i++){
 
                 String client = loginLogbyUser.get(i).getClient();
                 //判定和用户筛选的平台是否一致
                 if (client.equals(Client)) {
-                    System.out.println("4"+i);
                     Date datetime = loginLogbyUser.get(i).getDatetime();
                     //判定和用户筛选的时间是否一致
                     System.out.println("datetime"+datetime.getTime());
                     System.out.println("startTime"+startTime.getTime());
                     System.out.println("endTime"+endTime.getTime());
                     if (datetime.getTime()>startTime.getTime() && datetime.getTime()<endTime.getTime()){
-                        System.out.println("5"+i);
                         JSONObject jsonObject = new JSONObject();
                         jsonObject.put("username",loginLogbyUser.get(i).getUsername());
                         jsonObject.put("addIp",loginLogbyUser.get(i).getAddip());
@@ -101,7 +94,7 @@ public class AccountLoginRecord implements IAccountLoginRecord {
     @Override
     public void insertLoginUserLog(String username, HttpServletRequest request) {
         login_record loginRecord = new login_record();
-        String ipAddress = encryption.getIpAddress(request);
+        String ipAddress = Encryption.getIpAddressCdn(request);
         Date date = new Date(System.currentTimeMillis());
         loginRecord.setUsername(username);
         loginRecord.setDatetime(date);

@@ -48,18 +48,48 @@
 </head>
 <body>
 <div class="container">
-    <div class="clearfix ">
+    <div class="clearfix">
         <nav>
-            <ul uk-tab>
-                <li ><a href="#">网站首页</a></li>
-                <li class="uk-active"><a href="#">个人信息</a></li>
-                <li><a href="#">余额充值</a></li>
-                <li><a href="#">管理后台</a></li>
-                <li><a href="#">投诉建议</a></li>
-                <li class="uk-disabled"><a href="">账号:Boollan(注销)</a></li>
+            <ul uk-tab id="home_show">
+                <li><a href="javascript:;" @click="webShow">网站首页</a></li>
+                <li><a href="javascript:;" @click="userInfo">个人信息</a></li>
+                <li><a href="javascript:;" @click="balanceManagement">余额充值</a></li>
+                <li><a href="javascript:;" @click="adminManagement">管理后台</a></li>
+                <li><a href="javascript:;" @click="complaint">投诉建议</a></li>
+                <li><a href="javascript:;" @click="exitUser">账号:Boollan(注销)</a></li>
             </ul>
         </nav>
     </div>
+    <script type="text/javascript">
+        var home = new Vue({
+            el: '#home_show',
+            data: {
+                name: 'Vue.js'
+            },
+            // 在 `methods` 对象中定义方法
+            methods: {
+                webShow: function () {
+                    $(location).prop('href', '/');
+                },
+                userInfo: function () {
+                    $(location).prop('href', '/newPanel/userInfo/index');
+                },
+                adminManagement: function () {
+                    $(location).prop('href', '/newPanel/admin/index');
+                },
+                balanceManagement: function () {
+                    alert("余额充值!");
+                },
+                complaint: function () {
+                    $(location).prop('href', '/newPanel/complaints/index');
+                },
+                exitUser: function () {
+                    alert("退出账户!");
+                }
+
+            }
+        });
+    </script>
 
 
 

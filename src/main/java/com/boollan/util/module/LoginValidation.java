@@ -4,17 +4,25 @@ package com.boollan.util.module;
 
 import com.dingxianginc.ctu.client.CaptchaClient;
 import com.dingxianginc.ctu.client.model.CaptchaResponse;
-import org.springframework.stereotype.Component;
 
 import java.io.InputStream;
 import java.util.Properties;
 
 
-public class login_validation {
+/**
+ * @author Boollan
+ */
+public class LoginValidation {
 
     //继承接口 Ilogin_validation
 
-    //登录格式验证
+
+    /**
+     * 登录格式验证
+     * @param UserName_Validation 用户名
+     * @param Password_Validation 密码
+     * @return 是否
+     */
     public boolean loginandRegvalidation(String UserName_Validation, String Password_Validation) {
         if (UserName_Validation.trim() != null && Password_Validation.trim() != null) {
 
@@ -48,7 +56,7 @@ public class login_validation {
 
             Properties properties = new Properties();
             // 使用ClassLoader加载properties配置文件生成对应的输入流
-            InputStream in = login_validation.class.getClassLoader().getResourceAsStream("JavaConfig/JavaConfig.properties");
+            InputStream in = LoginValidation.class.getClassLoader().getResourceAsStream("db.properties");
             // 使用properties对象加载输入流
             properties.load(in);
             //获取key对应的value值

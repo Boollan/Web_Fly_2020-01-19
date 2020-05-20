@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="boollan@boollan.asuscomm.com" uuid="74bbd6cc-eed4-4a36-913d-a27f87704545">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <remarks>boollan.asuscomm.com</remarks>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://boollan.asuscomm.com:3306/boollan</jdbc-url>
+    </data-source>
+  </component>
+</project>

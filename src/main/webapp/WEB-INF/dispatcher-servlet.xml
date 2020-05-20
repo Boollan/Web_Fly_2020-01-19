@@ -46,11 +46,11 @@
         <property name="homeShowService" ref="homeShowService"/>
     </bean>
 
-<!--    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">-->
-<!--        <property name="maxUploadSize" value="10485760"/>-->
-<!--        <property name="defaultEncoding" value="UTF-8"/>-->
-<!--    </bean>-->
-    
+    <!--    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">-->
+    <!--        <property name="maxUploadSize" value="10485760"/>-->
+    <!--        <property name="defaultEncoding" value="UTF-8"/>-->
+    <!--    </bean>-->
+
     <!--表现层 Bean-->
     <bean class="com.boollan.controller.FileUploadController"/>
     <bean class="com.boollan.controller.Account"/>
@@ -78,10 +78,13 @@
     <mvc:resources mapping="/newPanel/css/**" location="/WEB-INF/page/VuePanel/css"/>
     <mvc:resources mapping="/newPanel/js/**" location="/WEB-INF/page/VuePanel/js/"/>
     <mvc:resources mapping="/newPanel/upload/**" location="/WEB-INF/page/VuePanel/resource/upload/"/>
-    <!--404页面资源配置-->
-    <mvc:resources mapping="/error/**" location="/WEB-INF/page/error/404/"/>
     <!--用户信息-->
     <bean class="com.boollan.controllerpanel.UserInfo"/>
+    <!--管理面板-->
+    <bean class="com.boollan.controllerpanel.AdminInfo"/>
+    <!--投诉建议-->
+    <bean class="com.boollan.controllerpanel.ComplaintsInfo"/>
+
 
 
     <!-- 定义跳转的文件的前后缀 ，视图模式配置 -->

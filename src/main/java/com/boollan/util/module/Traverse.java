@@ -2,18 +2,22 @@ package com.boollan.util.module;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
 
-public class traverse {
+/**
+ * @author Boollan
+ */
+public class Traverse {
 
-    //遍历json
-
-    //使用数据结果据变成JSON数据
+    /**
+     * 使用数据结果据变成JSON数据
+     * @param rs 数据集
+     * @return
+     */
     public JSONArray resultSetToJson(ResultSet rs) {
         try {
 

@@ -19,11 +19,12 @@
     <update id="updateEmailCode" parameterType="com.boollan.domain.emailcode">
         update emailcode set isuse=#{isuse},effective=#{effective} where email=#{email} and code=#{code}
     </update>
-    <select id="findAllEmailCode">
+    <select id="findAllEmailCode" resultMap="BaseUserResult">
         select * from emailcode
     </select>
-    <select id="findCodeByEamil">
+    <select id="findCodeByEmail" resultType="com.boollan.domain.emailcode" parameterType="com.boollan.domain.emailcode">
         select * from emailcode where email=#{email} and code=#{code}
     </select>
+
 
 </mapper>

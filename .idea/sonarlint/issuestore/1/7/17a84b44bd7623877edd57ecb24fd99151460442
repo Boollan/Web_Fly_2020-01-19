@@ -1,14 +1,14 @@
 
+F
+java:S1066†"/Merge this if statement with the enclosing one.(Óùß
 K
-java:S1066Ë"/Merge this if statement with the enclosing one.(©ßËéüÿÿÿÿ
+java:S1066É"/Merge this if statement with the enclosing one.(“Ãàûÿÿÿÿ
 K
 java:S1066Ç"/Merge this if statement with the enclosing one.(áˆ±®ûÿÿÿÿ
-K
-java:S1066Í"/Merge this if statement with the enclosing one.(ÈòÊ¬øÿÿÿÿ
+d	java:S100€"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ğô›
 n
 java:S3776·"RRefactor this method to reduce its Cognitive Complexity from 22 to the 15 allowed.(ü¦«¤ÿÿÿÿÿ
 K
-java:S1066É"/Merge this if statement with the enclosing one.(“Ãàûÿÿÿÿ
-F
-java:S1066†"/Merge this if statement with the enclosing one.(Óùß
-d	java:S100€"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ğô›
+java:S1066Í"/Merge this if statement with the enclosing one.(ÈòÊ¬øÿÿÿÿ
+K
+java:S1066Ë"/Merge this if statement with the enclosing one.(©ßËéüÿÿÿÿ

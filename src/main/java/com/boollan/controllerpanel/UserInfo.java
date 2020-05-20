@@ -59,4 +59,15 @@ public class UserInfo {
     public ModelAndView accountSecurity(){
         return new ModelAndView("VuePanel/userPanel/module/userInfo/AccountSecurity");
     }
+
+    /**
+     * 账户安全
+     * @return 返回页面
+     */
+    @RequestMapping(value = "/TradingAccount")
+    @ResponseBody
+    public ModelAndView tradingAccount(){
+        return new ModelAndView("VuePanel/userPanel/module/userInfo/TradingAccount");
+    }
+
 }

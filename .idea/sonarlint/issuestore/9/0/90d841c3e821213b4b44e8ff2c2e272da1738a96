@@ -1,0 +1,13 @@
+
+d	java:S100"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÿ’¯¸
+r
+java:S3008"WRename this field "SaltValueNum" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(í¦®¼øÿÿÿÿ
+h	java:S100#"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(»ßã±üÿÿÿÿ
+z
+java:S1128"_Remove this unused import 'org.springframework.context.support.ClassPathXmlApplicationContext'.(•ËÛüÿÿÿÿ
+d	java:S100“"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¢†‡
+a
+java:S1128"KRemove this unused import 'org.springframework.context.ApplicationContext'.(»Ô»¿
+a	java:S101"MRename this class name to match the regular expression '^[A-Z][a-zA-Z0-9]*$'.(Í®¡
+m
+java:S3008"WRename this field "GetSaltvalue" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÜÑª

@@ -9,6 +9,9 @@
 <%@ include file="../../internal/head.jsp" %>
 <%@ include file="internal/title.jsp" %>
     <div class="panel-body">
+        <div><a title="帮助" href="#help_Info" uk-toggle><span uk-icon="icon: question;"></span></a></div>
+
+
         <div class="uk-container">
             <table class="uk-table">
                 <caption>个人信息</caption>
@@ -120,6 +123,21 @@
                     type="button">保存
             </button>
         </div>
+
+        <div id="help_Info" uk-offcanvas>
+            <div class="uk-offcanvas-bar">
+
+                <button class="uk-offcanvas-close" type="button" uk-close></button>
+
+                <h3>记录查询帮助系统说明</h3>
+
+                <p>
+
+                </p>
+
+            </div>
+        </div>
+
     </div>
 </div>
 

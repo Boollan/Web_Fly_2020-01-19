@@ -60,13 +60,15 @@
                 </thead>
 
                 <tbody class="append" id="wrap">
+
                 </tbody>
             </table>
-            <nav aria-label="Page navigation" >
-                <ul class="pagination" id="list_data">
+
+            <nav aria-label="Page navigation">
+                <ul class="pagination" id="data_list">
+
+
                 </ul>
-            </nav>
-            <nav aria-label="Page navigation" id="message">
             </nav>
         </div>
     </div>
@@ -74,54 +76,110 @@
 
 
 <script type="text/javascript">
-    //当前页
-    let indexPage = 0;
-    //总长度
-    let PageLength = 0;
-    //列表数
-    let LowPage = 1;
 
     $(function () {
         $("#record_btn").click(function () {
-            update(1);
+            //1.获取数据
+            resultInfo();
+            //2.处理数据
+            switchPage(0);
+            //3.刷新数据
+            DataRefresh(1);
         });
     });
 
-    function update(pageRule) {
+    //获取服务端数据
+    function resultInfo() {
         $.ajax({
-            url: "/account/admin/api/sendLoginLog?username=" + $("#record_username").val() + "&pc=" + pageRule,
+            url: "/account/admin/api/sendLoginLog?username=" + $("#record_username").val(),
             type: 'GET',
             data: {},
             dataType: "JSON",
             async: false,
             success: function (data) {
-                PageLength = data.pcSize;
-                let accessKey = $("#wrap");
-                let jsonWebKey = data.result;
-                accessKey.empty();
-                for (i = 0; i < data.result.length; i++) {
-                    accessKey.append("<tr id='lest_value_" + [i] + "'><th scope=\"row\">" + (i + 1) + "</th><td>"
-                        + jsonWebKey[i].result_Username + "</td><td>" + jsonWebKey[i].result_AddIp + "</td><td>" + jsonWebKey[i].result_Datetime + "</td><td>" + jsonWebKey[i].result_Client + "</td></tr>");
-                }
-                switchPage(0);
+                dataResult = data.result;
+                pcSize = data.pcSize;
             }
         });
     }
 
-    function switchPage(index) {
-        if ((index + LowPage) > 0 && (index+LowPage)<=(Math.round( PageLength/10))) {
-            LowPage+=index;
-            let list_data = $("#list_data");
-            let message = $("#message");
-            message.empty();
-            list_data.empty();
-            list_data.append("<li><a href=\"javascript:\" onclick=\"switchPage(-1)\" aria-label=\"Previous\"><span aria-hidden=\"true\">&laquo;</span></li>");
+    //获取的数据
+    let dataResult = null;
+    //总数据条数
+    let pcSize = null;
 
-            for (i = ((LowPage*(10+1))-(10)); i < (LowPage*(10+1)); i++) {
-                list_data.append("<li><a href=\"javascript:\" onclick=\"update(" + i + ")\">" + i + "</a></li>");
+
+
+    //当前标签页
+    let pageIntGet = 1;
+    //渲染分页
+    function switchPage(page) {
+
+        if ((pageIntGet + page) > 0 && (pageIntGet + page) <= Math.ceil((pcSize / pint) / 10)) {
+
+            console.log('判断成功');
+            //赋值
+            pageIntGet += page;
+
+            //数据清理
+            $("#data_list").empty();
+
+            //获取元素
+            let data_list = document.querySelector("#data_list");
+
+            //总条数据页数
+            let pageInt = pcSize / pint;
+
+            //每页的页行数
+            let pageRuleInt = 10;
+
+            //上一页
+            data_list.insertAdjacentHTML('beforeend', '<li><a href="javascript:;" onclick="switchPage(-1)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>');
+
+            //判断是否真的用于这么多数据
+            if (pageIntGet <= Math.ceil(pageInt / pageRuleInt)) {
+                //遍历每页的页行数据
+                if (pageInt > (pageIntGet * pageRuleInt)) {
+                    //正常渲染
+                    for (let i = (pageIntGet * pageRuleInt) - pageRuleInt; i < pageIntGet * pageRuleInt; i++) {
+                        //如果数据行数小于需要分页的行数则不需要分页
+                        data_list.insertAdjacentHTML('beforeend', '<li><a href="javascript:;" onclick="DataRefresh(' + (i + 1) + ')" ">' + (i + 1) + '</a></li>');
+                    }
+                } else {
+                    console.log("pageInte 比宽泛值小！");
+                    //如果宽泛值比实际值要小那么就使用此方案来避免过长的渲染
+                    for (let i = (pageIntGet * pageRuleInt) - pageRuleInt; i < Math.ceil(pageInt); i++) {
+                        //如果数据行数小于需要分页的行数则不需要分页
+                        data_list.insertAdjacentHTML('beforeend', '<li><a href="javascript:;" onclick="DataRefresh(' + (i + 1) + ')" ">' + (i + 1) + '</a></li>');
+                    }
+                }
             }
-            list_data.append("<li><a href=\"javascript:\" onclick=\"switchPage(1)\" aria-label=\"Next\"><span aria-hidden=\"true\">&raquo;</span></a></li>");
-            message.append("<div class=\"alert alert-success\" role=\"alert\">总计:" + PageLength + "页 总共:" + (PageLength * 20) + "条数据</div>")
+
+            //下一页
+            data_list.insertAdjacentHTML('beforeend', '<li><a href="javascript:;" onclick="switchPage(1)" aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>');
+
+        }
+        console.log('判断失败');
+
+
+    }
+
+    //每页的数据行数
+    let pint = 20;
+    //数据列表渲染
+    function DataRefresh(page) {
+        //获取元素
+        let wrap = document.querySelector("#wrap");
+        //清理之前的列表数据
+        $("#wrap").empty();
+
+        //渲染列表数据
+        let pidInt = 1;
+        for (let i = (page * pint) - pint; i < (page * pint); i++) {
+            if (dataResult[i] != null) {
+                wrap.insertAdjacentHTML('beforeend', '<tr><td>' + pidInt + '</td><td>' + dataResult[i].result_Username + '</td><td>' + dataResult[i].result_AddIp + '</td><td>' + dataResult[i].result_Datetime + '</td><td>' + dataResult[i].result_Client + '</td></tr>');
+                pidInt++;
+            }
         }
     }
 </script>

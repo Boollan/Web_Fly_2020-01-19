@@ -1,14 +1,11 @@
 package com.boollan.controller;
 
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 import com.boollan.Servlet.ApiMethod.IAccountCdk;
-import com.boollan.Servlet.ApiMethod.IAccountLoginRecord;
 import com.boollan.Servlet.ApiMethod.IAccountMethod;
 import com.boollan.Servlet.ApiMethod.IHomeShow;
-import com.boollan.Servlet.ApiMethod.Impl.AccountCdk;
 import com.boollan.domain.account_cdk;
 import com.boollan.domain.account_user;
 import com.boollan.domain.home_show;
@@ -17,7 +14,7 @@ import com.boollan.service.IAccountCdkService;
 import com.boollan.service.IAccountUserService;
 import com.boollan.service.IHomeShowService;
 import com.boollan.service.ILoginRecordService;
-import com.boollan.util.module.encryption;
+import com.boollan.util.module.Encryption;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,8 +24,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -147,7 +142,7 @@ public class AdminInfo {
                         //获取当前用户
                         account_user infoByUser = accountUserService.findInfoByUser(username);
                         //修改用户信息
-                        infoByUser.setPassword(encryption.StringInMd5(password));
+                        infoByUser.setPassword(Encryption.StringInMd5(password));
                         //更新用户信息
                         accountUserService.updateUserInfo(infoByUser);
                         //返回界面信息
@@ -276,16 +271,18 @@ public class AdminInfo {
             if (cdk != null) {
                 Map<String, Object> cdkInfo = new HashMap<>();
                 account_cdk account_cdk = accountCdkService.finCdkInfoByCdk(cdk);
-                cdkInfo.put("cdk", account_cdk.getCdk());
-                cdkInfo.put("money", account_cdk.getMoney());
-                cdkInfo.put("effective", account_cdk.getEffective());
-                cdkInfo.put("overduetime", account_cdk.getOverduetime().toString());
-                cdkInfo.put("return", true);
-                cdkInfo.put(message, "获取成功!");
-                return new ModelAndView(new MappingJackson2JsonView(), cdkInfo);
+                if (account_cdk != null) {
+                    cdkInfo.put("cdk", account_cdk.getCdk());
+                    cdkInfo.put("money", account_cdk.getMoney());
+                    cdkInfo.put("effective", account_cdk.getEffective());
+                    cdkInfo.put("overduetime", account_cdk.getOverduetime().toString());
+                    cdkInfo.put("return", true);
+                    cdkInfo.put(message, "获取成功!");
+                    return new ModelAndView(new MappingJackson2JsonView(), cdkInfo);
+                }
             }
             map.put("return", false);
-            map.put(message, "CDK为空!");
+            map.put(message, "Cdk错误!");
             return new ModelAndView(new MappingJackson2JsonView(), map);
         }
         map.put("return", false);
@@ -304,21 +301,15 @@ public class AdminInfo {
     public String sendLoginLog(HttpServletRequest request) {
         Map<String, Object> map = new HashMap<>();
         try {
-            //最大页数
-            Integer length;
-            //每页数量
-            Integer number = 20;
             //验证管理员权限
             if (accountMethod.verifyAdminPermissions(request)) {
                 List<login_record> username = recordService.findLoginLogbyUser(request.getParameter("username"));
-                //获取第几页
-                Integer pc = Integer.parseInt(request.getParameter("pc"));
                 if (username != null) {
                     JSONObject response = new JSONObject();
                     JSONArray jsonArray = new JSONArray();
-                    length = username.size() / number;
                     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                    for (int i = number * (pc - 1); i < number * pc; i++) {
+                    //遍历数据
+                    for (int i = 0; i < username.size(); i++) {
                         JSONObject json = new JSONObject();
                         login_record login_record = username.get(i);
                         json.put("result_Username", login_record.getUsername());
@@ -328,10 +319,12 @@ public class AdminInfo {
                         json.put("result_Id", login_record.getId());
                         jsonArray.add(json);
                     }
-                    response.put("result",jsonArray);
-                    response.put("pcSize",length);
-                    response.put("return",true);
+                    //返回数据
+                    response.put("result", jsonArray);
+                    response.put("return", true);
+                    response.put("pcSize",username.size());
                     return response.toString();
+
                 }
                 map.put("return", false);
                 map.put(message, "没有查询到该用户!");
@@ -340,10 +333,10 @@ public class AdminInfo {
             map.put("return", false);
             map.put(message, "您无权使用此接口!");
             return map.toString();
-        }catch (Exception e){
+        } catch (Exception e) {
             map.put("return", false);
             map.put(message, "参数异常!");
-            map.put("errormessage",e.getMessage());
+            map.put("errormessage", e.getMessage());
             return map.toString();
         }
     }

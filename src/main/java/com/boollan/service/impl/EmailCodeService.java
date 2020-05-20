@@ -3,11 +3,6 @@ package com.boollan.service.impl;
 import com.boollan.dao.IEmailCodeDao;
 import com.boollan.domain.emailcode;
 import com.boollan.service.IEmailCodeService;
-import com.boollan.util.TransactionManager;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
 import java.util.List;
 
 
@@ -27,7 +22,10 @@ public class EmailCodeService implements IEmailCodeService {
 
     @Override
     public emailcode findCodeByEamil(String email, String code) {
-        return codeDao.findCodeByEamil(email, code);
+        emailcode emailcode = new emailcode();
+        emailcode.setEmail(email);
+        emailcode.setCode(code);
+        return codeDao.findCodeByEmail(emailcode);
     }
 
     @Override

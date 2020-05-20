@@ -28,7 +28,7 @@
     </div>
 </div>
 
-<script>
+<script type="text/javascript">
     var myEditor = null;
     ClassicEditor
         .create(document.querySelector('#editorText'), {
@@ -45,7 +45,7 @@
         });
 </script>
 
-<script>
+<script type="text/javascript">
 
     //写入内容到数据库
     var title = document.getElementById("titletext");//标题

@@ -1,0 +1,22 @@
+
+l	java:S117Ì"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(è÷ãüÿÿÿÿ
+J
+java:S1066M"/Merge this if statement with the enclosing one.(ãà¦ıÿÿÿÿ
+F
+java:S1066¸"/Merge this if statement with the enclosing one.(‹÷ƒ
+g	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(™æŒâ
+B
+java:S1168è"+Return an empty collection instead of null.(¥¹ï
+e	java:S117I"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(èŠ¸N
+f	java:S117B"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¨ŸÌµ
+K
+java:S1066Ã"/Merge this if statement with the enclosing one.(¥€éšøÿÿÿÿ
+K
+java:S1066Å"/Merge this if statement with the enclosing one.(Ä¦’Îıÿÿÿÿ
+o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(™¤•
+g	java:S117œ"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(á¾Ì
+l	java:S117†"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¬àü¡ıÿÿÿÿ
+g	java:S117ß"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¼à…Ö
+g	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ù³´¯
+g	java:S117±"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¶„©™
+g	java:S117³"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‰ÇŠú

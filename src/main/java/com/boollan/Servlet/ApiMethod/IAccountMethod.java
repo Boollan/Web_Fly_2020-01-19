@@ -1,6 +1,7 @@
 package com.boollan.Servlet.ApiMethod;
 
 import com.boollan.domain.account_user;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,6 +13,7 @@ import java.util.Map;
 /**
  * @author Boollan
  */
+@Component
 public interface IAccountMethod {
     /**
      * 用户登录模块

@@ -45,16 +45,17 @@
 
     <!--配置服务器邮箱的发送类-->
     <bean name="sendEmail" class="com.boollan.util.module.SendEmail">
-        <property name="myEmailSMTPHost" value="smtp.163.com"/>
-        <property name="myEmailAccount" value="wyzaoz@163.com"/>
-        <property name="myEmailPassword" value="xiaowei123"/>
+        <property name="myEmailSMTPHost" value="${mail.SMTPHost}"/>
+        <property name="myEmailAccount" value="${mail.AccountMail}"/>
+        <property name="myEmailPassword" value="${mail.PasswordMail}"/>
     </bean>
-
+    <!--默认发送邮件配置-->
     <bean name="accountEmail" class="com.boollan.Servlet.ApiMethod.Impl.AccountEmail">
         <property name="sendEmail" ref="sendEmail"/>
-        <property name="email_Title" value="注册"/>
-        <property name="email_SendName" value="依梦汉化组"/>
-        <property name="email_boey" value="您的验证码为：xxxxxx"/>
+        <!--以下value参数可以进行任意更改-->
+        <property name="email_Title" value="${mailContent.title}"/>
+        <property name="email_SendName" value="${mailContent.SendName}"/>
+        <property name="email_boey" value="${mailContent.body}"/>
     </bean>
     <!--实体类配置-->
     <bean class="com.boollan.domain.account_ban" name="account_ban"/>

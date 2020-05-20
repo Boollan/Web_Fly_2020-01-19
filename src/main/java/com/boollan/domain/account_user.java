@@ -1,7 +1,5 @@
 package com.boollan.domain;
 
-import com.boollan.util.module.encryption;
-
 /**
  * 用户信息实体类
  */

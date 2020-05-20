@@ -4,7 +4,7 @@ import com.boollan.Servlet.ApiMethod.IAccountMethod;
 import com.boollan.Servlet.ApiMethod.IHomeShow;
 import com.boollan.Servlet.Cookie.SetCookie;
 import com.boollan.util.module.RegularVerify;
-import com.boollan.util.module.login_validation;
+import com.boollan.util.module.LoginValidation;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -129,7 +129,7 @@ public class HomeInfo {
         Map<String, Object> map = new HashMap<>();
         String email = request.getParameter("email");
         String token = request.getParameter("token");
-        login_validation validation = new login_validation();
+        LoginValidation validation = new LoginValidation();
         if (validation.ImgeVerification(token)) {
             if (accountMethod.accountSendEmailCode(email)) {
                 map.put("return", true);
@@ -183,7 +183,7 @@ public class HomeInfo {
     public ModelAndView reg(HttpServletRequest httpServletRequest) throws UnsupportedEncodingException {
 
         Map<String, Object> map = new HashMap<>();
-        login_validation loginValidation = new login_validation();
+        LoginValidation loginValidation = new LoginValidation();
         if (httpServletRequest.getParameter("username") != null && httpServletRequest.getParameter("password") != null && httpServletRequest.getParameter("email") != null && httpServletRequest.getParameter("token") != null && httpServletRequest.getParameter("code") != null) {
             //获取信息
             Map<String, Object> metadata = new HashMap<>();

@@ -3,11 +3,6 @@ package com.boollan.service.impl;
 import com.boollan.dao.ILoginRecordDao;
 import com.boollan.domain.login_record;
 import com.boollan.service.ILoginRecordService;
-import com.boollan.util.TransactionManager;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
 import java.util.List;
 
 

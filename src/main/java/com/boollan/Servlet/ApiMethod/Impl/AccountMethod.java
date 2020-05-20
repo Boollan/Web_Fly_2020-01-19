@@ -9,12 +9,8 @@ import com.boollan.service.IAccountUserService;
 import com.boollan.service.IEmailCodeService;
 import com.boollan.service.ILoginRecordService;
 import com.boollan.util.module.RandomNumber;
-import com.boollan.util.module.encryption;
-import com.boollan.util.module.login_validation;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-
-import javax.annotation.Resource;
+import com.boollan.util.module.Encryption;
+import com.boollan.util.module.LoginValidation;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -69,7 +65,7 @@ public class AccountMethod implements IAccountMethod {
     @Override
     public boolean accountLogin(HttpServletRequest request, HttpServletResponse response, Map<String, Object> AccountLoginInfoJson) {
         //实例化工具类
-        login_validation loginValidation = new login_validation();
+        LoginValidation loginValidation = new LoginValidation();
         boolean token = loginValidation.ImgeVerification(AccountLoginInfoJson.get("token").toString());
         //验证人机
         if (token) {
@@ -78,7 +74,7 @@ public class AccountMethod implements IAccountMethod {
             //非空验证
             if (account_user != null) {
                 //将MD5加密后的密码进行比对
-                if (account_user.getPassword().equals(encryption.StringInMd5(AccountLoginInfoJson.get("password").toString()))) {
+                if (account_user.getPassword().equals(Encryption.StringInMd5(AccountLoginInfoJson.get("password").toString()))) {
                     //设置是否是7天登录
                     SetCookie setCookie = new SetCookie();
                     if (AccountLoginInfoJson.get("inputKeep").equals("1")) {
@@ -139,7 +135,7 @@ public class AccountMethod implements IAccountMethod {
         //设置登录记录
 
         //获取用户的IP
-        String remoteAddr = encryption.getIpAddress(ipAddr);
+        String remoteAddr = Encryption.getIpAddress(ipAddr);
         //获取用户的登录时间
         Date date = new Date(System.currentTimeMillis());
         login_record login_record = new login_record();
@@ -162,7 +158,7 @@ public class AccountMethod implements IAccountMethod {
         account_user account_user = new account_user();
         //设置信息
         account_user.setUsername(AccountRegInfoJson.get("username").toString());
-        account_user.setPassword(encryption.StringInMd5(AccountRegInfoJson.get("password").toString()));
+        account_user.setPassword(Encryption.StringInMd5(AccountRegInfoJson.get("password").toString()));
         account_user.setEmail(AccountRegInfoJson.get("email").toString());
         account_user.setDonations(0);
         account_user.setPermissions(0);
@@ -180,7 +176,7 @@ public class AccountMethod implements IAccountMethod {
     @Override
     public boolean accountPasswordReset(Map<String, Object> AccountResetInfoJson) {
         //通过邮箱获取用户信息
-        login_validation login_record = new login_validation();
+        LoginValidation login_record = new LoginValidation();
         if (login_record.ImgeVerification(AccountResetInfoJson.get("token").toString())) {
             Map<String, Object> email = this.accountGetInfoEmail(AccountResetInfoJson.get("email").toString());
             if (email != null) {
@@ -188,7 +184,7 @@ public class AccountMethod implements IAccountMethod {
                 if (this.accountEmailCodeVerify(AccountResetInfoJson.get("email").toString(), AccountResetInfoJson.get("code").toString())) {
                     //验证成功更新密码（密码已经够MD5加密）
                     account_user userInfo = userService.findInfoByEmail(AccountResetInfoJson.get("email").toString());
-                    userInfo.setPassword(encryption.StringInMd5(AccountResetInfoJson.get("newpwd").toString()));
+                    userInfo.setPassword(Encryption.StringInMd5(AccountResetInfoJson.get("newpwd").toString()));
                     //更新密码
                     userService.updateUserInfo(userInfo);
                     return true;
@@ -209,8 +205,8 @@ public class AccountMethod implements IAccountMethod {
         //1.获取当前用户信息
         account_user username = userService.findInfoByUser(AccountUpdateInfoJson.get("username").toString());
         //2.比对当前用户的密码
-        if (username.getPassword().equals(encryption.StringInMd5(AccountUpdateInfoJson.get("lowPassword").toString()).toString())) {
-            username.setPassword(encryption.StringInMd5(AccountUpdateInfoJson.get("newPassword").toString()));
+        if (username.getPassword().equals(Encryption.StringInMd5(AccountUpdateInfoJson.get("lowPassword").toString()).toString())) {
+            username.setPassword(Encryption.StringInMd5(AccountUpdateInfoJson.get("newPassword").toString()));
             userService.updateUserInfo(username);
             return true;
         }

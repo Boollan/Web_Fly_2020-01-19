@@ -21,11 +21,10 @@ public interface IEmailCodeDao {
 
 
     /**
-     * @param email 邮箱
-     * @param code 验证码
-     * @return 返回的是验证码信息
+     * @param emailDao 数据集合
+     * @return 返回是否成功
      */
-    emailcode findCodeByEamil(String email, String code);
+    emailcode findCodeByEmail(emailcode emailDao);
 
 
     /**
