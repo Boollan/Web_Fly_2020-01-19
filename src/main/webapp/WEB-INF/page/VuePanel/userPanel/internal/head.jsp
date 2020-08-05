@@ -52,11 +52,8 @@
         <nav>
             <ul uk-tab id="home_show">
                 <li><a href="javascript:;" @click="webShow">网站首页</a></li>
-                <li><a href="javascript:;" @click="userInfo">个人信息</a></li>
-                <li><a href="javascript:;" @click="balanceManagement">余额充值</a></li>
-                <li><a href="javascript:;" @click="adminManagement">管理后台</a></li>
-                <li><a href="javascript:;" @click="complaint">投诉建议</a></li>
-                <li><a href="javascript:;" @click="exitUser">账号:Boollan(注销)</a></li>
+                <li><a href="javascript:;" @click="balanceManagement">会员购买</a></li>
+                <li><a href="javascript:;" @click="adminManagement">管理功能</a></li>
             </ul>
         </nav>
     </div>
@@ -71,22 +68,12 @@
                 webShow: function () {
                     $(location).prop('href', '/');
                 },
-                userInfo: function () {
-                    $(location).prop('href', '/newPanel/userInfo/index');
-                },
                 adminManagement: function () {
-                    $(location).prop('href', '/newPanel/admin/index');
+                    $(location).prop('href', '/Admin/generateCdk');
                 },
                 balanceManagement: function () {
-                    alert("余额充值!");
-                },
-                complaint: function () {
-                    $(location).prop('href', '/newPanel/complaints/index');
-                },
-                exitUser: function () {
-                    alert("退出账户!");
+                    $(location).prop('href', '/Membersbuy/OneLinePaymentVip');
                 }
-
             }
         });
     </script>

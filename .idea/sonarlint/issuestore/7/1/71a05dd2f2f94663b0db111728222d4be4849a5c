@@ -1,0 +1,7 @@
+
+o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(™¤•
+A
+java:S1168K"+Return an empty collection instead of null.(¥¹ï
+f	java:S117!"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ŠšØê
+>
+java:S1125."(Remove the literal "true" boolean value.(æ„çË

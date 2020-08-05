@@ -1,3 +1,12 @@
 
+_
+java:S1126”"AReplace this if-then-else statement by a single return statement.(Óç¾Å8¹ÃÒ±³.
+|
+java:S11496"_Replace the synchronized class "StringBuffer" by an unsynchronized one such as "StringBuilder".(í…Ò‰8¹ÃÒ±³.
+]
+java:S1119g";Refactor the code to remove this label and the need for it.(ù“ÈÛÿÿÿÿÿ8¹ÃÒ±³.
+^
+java:S1126%"AReplace this if-then-else statement by a single return statement.(¨Àë·8¹ÃÒ±³.
+U
+java:S4719U"9Replace charset name argument with StandardCharsets.UTF_8(ŠËˆx8¹ÃÒ±³.
 c	java:S100"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ˆ£ªè
-f	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ˆ£ªè

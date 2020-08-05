@@ -1,20 +1,0 @@
-
-k	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(òöÄÍøÿÿÿÿ
-f	java:S117%"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(åìÇú
-k	java:S117-"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(œÀéùÿÿÿÿ
-f	java:S1172"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‚ï×ã
-k	java:S117="QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(­£õŠùÿÿÿÿ
-k	java:S117="QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(­£õŠùÿÿÿÿ
-f	java:S117G"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¼€Šá
-f	java:S117G"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¼€Šá
-f	java:S117G"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¼€Šá
-k	java:S117Q"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ëõ¨Ïøÿÿÿÿ
-k	java:S117Q"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ëõ¨Ïøÿÿÿÿ
-k	java:S117Q"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ëõ¨Ïøÿÿÿÿ
-o	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(™¤•
-h	java:S100"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ï‹²ùÿÿÿÿ
-h	java:S100"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(òöÄÍøÿÿÿÿ
-c	java:S100!"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ôç²œ
-c	java:S100%"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(åìÇú
-c	java:S100)"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(·¦ã
-h	java:S100-"NRename this method name to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(œÀéùÿÿÿÿ

@@ -1,125 +1,311 @@
 package com.boollan.controller;
 
+import com.boollan.service.IMemberSystemAdmin;
+import com.boollan.service.IUserInformationSystem;
+import com.boollan.util.module.LoginValidation;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+
 /**
  * @author Boollan
  */
-@RequestMapping(path = "/account/admin", method = {RequestMethod.GET, RequestMethod.POST})
+@RequestMapping(path = "/Admin")
 public class Admin {
 
-    /**
-     * 账号首页页面
-     * @return 返回页面
-     */
-    @RequestMapping(value = "/index")
-    @ResponseBody
-    public ModelAndView index(){
-        return new ModelAndView("account/admin/index");
+    public void setMemberSystemAdmin(IMemberSystemAdmin iMemberSystemAdmin) {
+        this.iMemberSystemAdmin = iMemberSystemAdmin;
+    }
+
+    private IMemberSystemAdmin iMemberSystemAdmin;
+
+    private IUserInformationSystem iUserInformationSystem;
+
+    public void setiUserInformationSystem(IUserInformationSystem iUserInformationSystem) {
+        this.iUserInformationSystem = iUserInformationSystem;
     }
 
     /**
-     * 密码管理页面
-     * @return 返回页面
+     * 卡密生成VIP或OP
+     *
+     * @return true
      */
-    @RequestMapping(value = "/passwordManagement")
-    @ResponseBody
-    public ModelAndView passwordManagement(){
-        return new ModelAndView("account/admin/module/admin_passowrd");
+    @RequestMapping(value = "/generateCdk")
+    public ModelAndView generateCdk() {
+        return new ModelAndView("VuePanel/userPanel/module/Admin/generateviporop");
     }
 
     /**
-     * 邮箱管理页面
-     * @return 返回页面
+     * 管理员添加VIP或OP
+     *
+     * @return true
      */
-    @RequestMapping(value = "/emailManagement")
-    @ResponseBody
-    public ModelAndView emailManagement(){
-        return new ModelAndView("account/admin/module/admin_email");
+    @RequestMapping(value = "/addVipOrOp")
+    public ModelAndView addVipOrOp() {
+        return new ModelAndView("VuePanel/userPanel/module/Admin/addviporop");
     }
 
     /**
-     * 邮箱查询管理页面
-     * @return 返回页面
+     * 管理员添加VIP或OP
+     *
+     * @return true
      */
-    @RequestMapping(value = "/emailSelectManagement")
-    @ResponseBody
-    public ModelAndView emailSelectManagement(){
-        return new ModelAndView("account/admin/module/email_module/admin_email_select");
+    @RequestMapping(value = "/cancelVipOrOp")
+    public ModelAndView cancelVipOrOp() {
+        return new ModelAndView("VuePanel/userPanel/module/Admin/cancelviporop");
     }
 
     /**
-     * cdk管理页面
-     * @return 返回页面
+     * 管理员添加VIP或OP
+     *
+     * @return true
      */
-    @RequestMapping(value = "/cdkManagement")
+    @RequestMapping(value = "/viewlist")
+    public ModelAndView viewlist() {
+        return new ModelAndView("VuePanel/userPanel/module/Admin/viewlist");
+    }
+
+
+    /**
+     * 卡密生成
+     *
+     * @return true
+     */
+    @RequestMapping(value = "/GenerateCdkApi", method = {RequestMethod.GET, RequestMethod.POST}, produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public ModelAndView cdkManagement(){
-        return new ModelAndView("account/admin/module/admin_cdk");
+    public String getGenerateCdk(HttpServletRequest request) {
+
+        String number = request.getParameter("number").trim();
+        String datetime = request.getParameter("datetime").trim();
+        String permissionsType = request.getParameter("permissionsType").trim();
+        String token = request.getParameter("token").trim();
+        //实例化工具类
+        LoginValidation loginValidation = new LoginValidation();
+        //判断是否是机器人
+        if (loginValidation.imageVerification(token)) {
+
+            if (null != request.getParameter("adminPassword")) {
+                String adminPassword = request.getParameter("adminPassword");
+                //VIP
+                int vip = 1;
+                if (Integer.parseInt(permissionsType) == vip) {
+                    return iMemberSystemAdmin.memberSystemAdminCdkGenerateVip(Integer.parseInt(number), datetime, adminPassword).toString();
+                }
+                //OP
+                int op = 2;
+                if (Integer.parseInt(permissionsType) == op) {
+                    return iMemberSystemAdmin.memberSystemAdminCdkGenerateOp(Integer.parseInt(number), datetime, adminPassword).toString();
+                }
+            } else {
+                //用户没有输入管理员密码 判断他是否登录是否具有管理员身份
+                if (iUserInformationSystem.verifyAdminRoot(request)) {
+                    //VIP
+                    int vip = 1;
+                    if (Integer.parseInt(permissionsType) == vip) {
+                        return iMemberSystemAdmin.memberSystemAdminCdkGenerateVip(Integer.parseInt(number), datetime, request).toString();
+                    }
+                    //OP
+                    int op = 2;
+                    if (Integer.parseInt(permissionsType) == op) {
+                        return iMemberSystemAdmin.memberSystemAdminCdkGenerateOp(Integer.parseInt(number), datetime, request).toString();
+                    }
+                }
+            }
+
+        }
+        return null;
     }
 
     /**
-     * cdk查询管理页面
-     * @return 返回页面
+     * 手动添加OpOrVip
+     *
+     * @return true
      */
-    @RequestMapping(value = "/cdkSelectManagement")
+    @RequestMapping(value = "/OpOrVipAddApi", method = {RequestMethod.GET, RequestMethod.POST}, produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public ModelAndView cdkSelectManagement(){
-        return new ModelAndView("account/admin/module/cdk_module/admin_cdk_select");
+    public String getOpOrVipAddApi(HttpServletRequest request) throws IOException {
+
+        String steamid = request.getParameter("steamid").trim();
+        String type = request.getParameter("type").trim();
+        String dataTime = request.getParameter("dataTime").trim();
+
+        String token = request.getParameter("token").trim();
+
+        //实例化工具类
+        LoginValidation loginValidation = new LoginValidation();
+        //判断是否是机器人
+        if (loginValidation.imageVerification(token)) {
+            if (null != request.getParameter("adminPassword")){
+                String adminPassword = request.getParameter("adminPassword").trim();
+                JSONObject json = new JSONObject();
+                boolean b = iMemberSystemAdmin.memberSystemAdminAddOpOrVipTimestamp(steamid, type, dataTime, adminPassword);
+                json.put("res", b);
+                return json.toString();
+            }else {
+                JSONObject json = new JSONObject();
+                boolean b = iMemberSystemAdmin.memberSystemAdminAddOpOrVipTimestamp(steamid, type, dataTime, request);
+                json.put("res", b);
+                return json.toString();
+            }
+
+        }
+        return null;
     }
 
     /**
-     * 登录日志管理页面
-     * @return 返回页面
+     * 手动取消OpOrVip
+     *
+     * @return true
      */
-    @RequestMapping(value = "/loginRecordManagement")
+    @RequestMapping(value = "/OpOrVipCancelApi", method = {RequestMethod.GET, RequestMethod.POST}, produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public ModelAndView loginRecordManagement(){
-        return new ModelAndView("account/admin/module/admin_user_login_record");
+    public String getOpOrVipCancelApi(HttpServletRequest request) {
+
+        String steamid = request.getParameter("steamid").trim();
+        String type = request.getParameter("type").trim();
+
+        String token = request.getParameter("token").trim();
+
+        //实例化工具类
+        LoginValidation loginValidation = new LoginValidation();
+        //判断是否是机器人
+        if (loginValidation.imageVerification(token)) {
+            if(null != request.getParameter("adminPassword")){
+                String adminPassword = request.getParameter("adminPassword").trim();
+                JSONObject json = new JSONObject();
+                boolean b = iMemberSystemAdmin.memberSystemAdminCancelOpOrVipTimestamp(steamid, type, adminPassword);
+                json.put("res", b);
+                return json.toString();
+            }else {
+                JSONObject json = new JSONObject();
+                boolean b = iMemberSystemAdmin.memberSystemAdminCancelOpOrVipTimestamp(steamid, type, request);
+                json.put("res", b);
+                return json.toString();
+            }
+
+        }
+        return null;
     }
 
     /**
-     * 游戏登录日志管理页面
-     * @return 返回页面
+     * OpOrVip列表
      */
-    @RequestMapping(value = "/loginRecordGameManagement")
+    @RequestMapping(value = "/OpOrVipListApi", method = {RequestMethod.GET, RequestMethod.POST}, produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public ModelAndView loginRecordGameManagement(){
-        return new ModelAndView("account/admin/module/record_module/admin_user_login_game");
+    public String getOpOrVipListApi(HttpServletRequest request) {
+
+        String type = request.getParameter("type").trim();
+
+        String token = request.getParameter("token").trim();
+
+        //实例化工具类
+        LoginValidation loginValidation = new LoginValidation();
+        //判断是否是机器人
+        if (loginValidation.imageVerification(token)) {
+            if(null != request.getParameter("adminPassword")){
+                String adminPassword = request.getParameter("adminPassword").trim();
+                JSONArray result = new JSONArray();
+                JSONObject json = new JSONObject();
+                JSONArray jsonArray = iMemberSystemAdmin.memberSystemAdminSelectOpOrVipList(type, adminPassword);
+                if (jsonArray != null) {
+                    json.put("size", jsonArray.size());
+                    result.add(jsonArray);
+                    result.add(json);
+                    return result.toJSONString();
+                }
+            }else {
+                JSONArray result = new JSONArray();
+                JSONObject json = new JSONObject();
+                JSONArray jsonArray = iMemberSystemAdmin.memberSystemAdminSelectOpOrVipList(type, request);
+                if (jsonArray != null) {
+                    json.put("size", jsonArray.size());
+                    result.add(jsonArray);
+                    result.add(json);
+                    return result.toJSONString();
+                }
+            }
+
+        }
+        return null;
     }
 
     /**
-     * 其他管理页面
-     * @return 返回页面
+     * 添加兔子币
      */
-    @RequestMapping(value = "/otherManagement")
+    @RequestMapping(value = "/AddBuyApi", method = {RequestMethod.GET, RequestMethod.POST}, produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public ModelAndView otherManagement(){
-        return new ModelAndView("account/admin/module/admin_other");
+    public String getAddBuyApi(HttpServletRequest request) {
+
+        String steamid = request.getParameter("steamid").trim();
+        String currency = request.getParameter("currency").trim();
+        String token = request.getParameter("token").trim();
+
+        //实例化工具类
+        LoginValidation loginValidation = new LoginValidation();
+        //判断是否是机器人
+        if (loginValidation.imageVerification(token)) {
+            JSONObject json = new JSONObject();
+            boolean b = iMemberSystemAdmin.memberSystemAdminAddBuy(steamid, currency, request);
+            if (b) {
+                json.put("state","succeed");
+                json.put("message","添加兔子币成功!");
+                return json.toJSONString();
+            }
+            json.put("state","fail");
+            json.put("message","添加兔子币失败!");
+            return json.toJSONString();
+        }
+        return null;
     }
 
     /**
-     * 封禁系统管理页面
-     * @return 返回页面
+     * 取消兔子币
      */
-    @RequestMapping(value = "/otherUserBanManagement")
+    @RequestMapping(value = "/CancelBuyApi", method = {RequestMethod.GET, RequestMethod.POST}, produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public ModelAndView otherUserBanManagement(){
-        return new ModelAndView("account/admin/module/other_module/admin_other_user_ban");
+    public String getCancelBuyApi(HttpServletRequest request) {
+
+        String steamid = request.getParameter("steamid").trim();
+        String token = request.getParameter("token").trim();
+        //实例化工具类
+        LoginValidation loginValidation = new LoginValidation();
+        //判断是否是机器人
+        if (loginValidation.imageVerification(token)) {
+            JSONObject json = new JSONObject();
+            boolean b = iMemberSystemAdmin.memberSystemAdminCancelBuy(steamid, request);
+            if (b) {
+                json.put("state","succeed");
+                json.put("message","取消兔子币成功!");
+                return json.toJSONString();
+            }
+            json.put("state","fail");
+            json.put("message","取消兔子币失败!");
+            return json.toJSONString();
+        }
+        return null;
     }
+
 
     /**
-     * 首页管理页面
-     * @return 返回页面
+     * 查询兔子币信息
      */
-    @RequestMapping(value = "/otherHomeManagement")
+    @RequestMapping(value = "/BuyListApi", method = {RequestMethod.GET, RequestMethod.POST}, produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public ModelAndView otherHomeManagement(){
-        return new ModelAndView("account/admin/module/other_module/admin_other_home_management");
+    public String getBuyListApi(HttpServletRequest request) throws IOException {
+        String token = request.getParameter("token").trim();
+        //实例化工具类
+        LoginValidation loginValidation = new LoginValidation();
+        //判断是否是机器人
+        if (loginValidation.imageVerification(token)) {
+            return iMemberSystemAdmin.memberSystemAdminListBuy(request).toJSONString();
+        }
+        return null;
     }
-
 
 }

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boollan.dao.IL4d2BuyListDao">
+
+    <!--配置实体类数据-->
+    <resultMap id="BaseUserResult" type="com.boollan.domain.L4d2BuyList">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="steamid" property="steamid" jdbcType="VARCHAR"/>
+        <result column="currency" property="currency" jdbcType="VARCHAR"/>
+        <result column="intime" property="intime" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="findAllBuyList" resultMap="BaseUserResult">
+        select * from l4d2_buy_list
+    </select>
+
+    <select id="findMapBySteamId" resultMap="BaseUserResult">
+        select * from l4d2_buy_list where steamid=#{steamid}
+    </select>
+
+    <insert id="insertMapBuyBuyInfo">
+        insert into l4d2_buy_list(steamid,currency,intime)values(#{steamid},#{currency},#{intime})
+    </insert>
+
+    <update id="updateMapBuySteamId">
+        update l4d2_buy_list set currency=#{currency},intime=#{intime} where steamid=#{steamid}
+    </update>
+
+
+
+</mapper>

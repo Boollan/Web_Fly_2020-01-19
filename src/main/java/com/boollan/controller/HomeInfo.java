@@ -1,24 +1,18 @@
 package com.boollan.controller;
 
-import com.boollan.Servlet.ApiMethod.IAccountMethod;
-import com.boollan.Servlet.ApiMethod.IHomeShow;
-import com.boollan.Servlet.Cookie.SetCookie;
-import com.boollan.util.module.RegularVerify;
-import com.boollan.util.module.LoginValidation;
+import com.boollan.service.IL4d2GameInfo;
+import com.github.koraktor.steamcondenser.exceptions.SteamCondenserException;
+import com.github.koraktor.steamcondenser.steam.servers.GoldSrcServer;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeoutException;
 
 
 /**
@@ -27,252 +21,199 @@ import java.util.Map;
 @RequestMapping(path = "/")
 public class HomeInfo {
 
-    private IHomeShow homeShow;
+    private IL4d2GameInfo l4d2GameCcrList;
 
-    public void setHomeShow(IHomeShow homeShow) {
-        this.homeShow = homeShow;
-    }
-
-    private IAccountMethod accountMethod;
-
-    public void setAccountMethod(IAccountMethod accountMethod) {
-        this.accountMethod = accountMethod;
-    }
-
-    RegularVerify regularVerify;
-
-    public void setRegularVerify(RegularVerify regularVerify) {
-        this.regularVerify = regularVerify;
+    public void setL4d2GameCcrList(IL4d2GameInfo l4d2GameCcrList) {
+        this.l4d2GameCcrList = l4d2GameCcrList;
     }
 
     /**
-     * 首页
+     * 公告页面
+     *
      * @return true
      */
     @RequestMapping(path = "/")
-    public ModelAndView getHome() {
-        Map<String, Object> stringObjectMap = homeShow.GetInfoData();
-
-        ModelAndView modelAndView = new ModelAndView("Home");
-        modelAndView.addObject("homeTite", stringObjectMap.get("homeTite"));
-        modelAndView.addObject("HomeText", stringObjectMap.get("HomeText"));
-        modelAndView.addObject("imge_1", stringObjectMap.get("imge_1"));
-        modelAndView.addObject("imge_2", stringObjectMap.get("imge_2"));
-        modelAndView.addObject("imge_3", stringObjectMap.get("imge_3"));
-        return modelAndView;
-    }
-
-    /**
-     * 获取首页内容展示数据
-     * @return true
-     */
-    @RequestMapping(path = "/HomeShowText")
-    public ModelAndView getHomeInfo() {
-        Map<String, Object> stringObjectMap = homeShow.GetInfoData();
-        return new ModelAndView(new MappingJackson2JsonView(), stringObjectMap);
+    public ModelAndView getindex() {
+        return new ModelAndView("VuePanel/userPanel/module/complaints/index");
     }
 
 
     /**
-     * 警告页面
+     * 求生之路2游戏服务器信息 其他服务器
+     *
      * @return true
      */
-    @RequestMapping(path = "/warning")
-    public ModelAndView getWarning() {
-        return new ModelAndView("Warning");
-    }
-
-    /**
-     * 捐助页面
-     * @return true
-     */
-    @RequestMapping(path = "/donations")
-    public ModelAndView getDonations() {
-        return new ModelAndView("Donations");
-    }
-
-    /**
-     * 登录页面
-     * @return true
-     */
-    @RequestMapping(path = "/login")
-    public ModelAndView getLogin() {
-        return new ModelAndView("Login");
-    }
-
-    /**
-     * 注册页面
-     * @return true
-     */
-    @RequestMapping(path = "/registered")
-    public ModelAndView getRegistered() {
-        return new ModelAndView("Reg");
-    }
-
-    /**
-     * 重置密码页面
-     * @return true
-     */
-    @RequestMapping(path = "/resetPassword")
-    public ModelAndView getResetPassword() {
-        return new ModelAndView("ForgotPassword");
-    }
-
-    /**
-     * 发送验证码接口
-     * @param request 请求头
-     * @return true
-     */
-    @RequestMapping(path = "/SendEmail", method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
+    @RequestMapping(path = "/GameServerInfo", method = {RequestMethod.GET, RequestMethod.POST}, produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public ModelAndView SendEmail(HttpServletRequest request) {
-        Map<String, Object> map = new HashMap<>();
-        String email = request.getParameter("email");
-        String token = request.getParameter("token");
-        LoginValidation validation = new LoginValidation();
-        if (validation.ImgeVerification(token)) {
-            if (accountMethod.accountSendEmailCode(email)) {
-                map.put("return", true);
-                return new ModelAndView(new MappingJackson2JsonView(), map);
+    public String getServerGame() throws TimeoutException, SteamCondenserException {
+
+        GoldSrcServer server = new GoldSrcServer("47.100.39.221", 27015);
+        server.initialize();
+
+        StringBuffer substring = new StringBuffer();
+        substring.append(server.getServerInfo().get("serverName") + "\n");
+        substring.append("地图:" + server.getServerInfo().get("mapName") + "\n");
+        substring.append("延迟:" + server.getPing() + "ms\n");
+        substring.append("ip:" + "43.241.50.78:32085" + "\n");
+        String str = server.getPlayers().values().toString();
+        int number = 0;
+
+        int start = 0;
+        int end = 0;
+        int temp = 0;
+
+        int start1 = 0;
+        int end1 = 0;
+        int temp1 = 0;
+        for (int i = 0; i < str.length(); i++) {
+            start = str.indexOf("\"", temp);
+            end = str.indexOf("\"", start + 1);
+            temp = end + 1;
+
+
+            start1 = str.indexOf("Time:", temp1);
+            end1 = str.indexOf(".", start1 + 5);
+            temp1 = end1 + 2;
+            try {
+
+                substring.append((i + 1) + "." + str.substring(start, end));
+                substring.append("\t在线时间:" + (Integer.parseInt(str.substring(start1 + 6, end1)) / 60) + "分钟 \n");
+                number++;
+            } catch (Exception e) {
+                break;
             }
         }
-        map.put("return", false);
-        return new ModelAndView(new MappingJackson2JsonView(), map);
+        substring.append("总计当前玩家人数：" + number + "/8");
+        return substring.toString();
     }
 
+
     /**
-     * //登录接口
-     * @param httpServletRequest 请求头
-     * @param httpServletResponse 请求体
+     * 求生之路2游戏服务器信息
+     *
      * @return true
-     * @throws Exception 异常
      */
-    @RequestMapping(path = "/userLogin", method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
+    @RequestMapping(path = "/GameServerInfoNew", method = {RequestMethod.GET, RequestMethod.POST}, produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public ModelAndView login(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
+    public String getServerGameNew() throws TimeoutException, SteamCondenserException {
 
-        Map<String, Object> map = new HashMap<>();
-        //非空验证
-        if (httpServletRequest.getParameter("username") != null && httpServletRequest.getParameter("password") != null && httpServletRequest.getParameter("token") != null && httpServletRequest.getParameter("inputKeep") != null) {
+        GoldSrcServer server = new GoldSrcServer("43.241.50.78", 32062);
+        server.initialize();
 
-            Map<String, Object> metadata = new HashMap<>();
-            metadata.put("username", httpServletRequest.getParameter("username"));
-            metadata.put("password", URLEncoder.encode(httpServletRequest.getParameter("password"), "UTF-8"));
-            metadata.put("token", httpServletRequest.getParameter("token"));
-            metadata.put("inputKeep", httpServletRequest.getParameter("inputKeep"));
+        StringBuffer substring = new StringBuffer();
+        substring.append(server.getServerInfo().get("serverName") + "\n");
+        substring.append("地图:" + server.getServerInfo().get("mapName") + "\n");
+        substring.append("延迟:" + server.getPing() + "ms\n");
+        substring.append("ip:" + "43.241.50.78:32062" + "\n");
+        String str = server.getPlayers().values().toString();
+        int number = 0;
 
-            if (accountMethod.accountLogin(httpServletRequest, httpServletResponse, metadata)) {
-                map.put("key", true);
-                map.put("message", "登录成功!");
-                return new ModelAndView(new MappingJackson2JsonView(), map);
+        int start = 0;
+        int end = 0;
+        int temp = 0;
+
+        int start1 = 0;
+        int end1 = 0;
+        int temp1 = 0;
+        for (int i = 0; i < str.length(); i++) {
+            start = str.indexOf("\"", temp);
+            end = str.indexOf("\"", start + 1);
+            temp = end + 1;
+
+
+            start1 = str.indexOf("Time:", temp1);
+            end1 = str.indexOf(".", start1 + 5);
+            temp1 = end1 + 2;
+            try {
+
+                substring.append((i + 1) + "." + str.substring(start, end));
+                substring.append("\t在线时间:" + (Integer.parseInt(str.substring(start1 + 6, end1)) / 60) + "分钟 \n");
+                number++;
+            } catch (Exception e) {
+                break;
             }
         }
-        map.put("key", false);
-        map.put("message", "登录失败!");
-        return new ModelAndView(new MappingJackson2JsonView(), map);
+        substring.append("总计当前玩家人数：" + number + "/12");
+
+        return substring.toString();
+    }
+
+
+    /**
+     * 跳跃服游戏服务器公告页面
+     *
+     * @return true
+     */
+    @RequestMapping(value = "motd")
+    public ModelAndView getHelpMotd() {
+        return new ModelAndView("motd");
     }
 
     /**
-     * 注册接口
-     * @param httpServletRequest 请求头
+     * 游戏服务器提供商
+     *
      * @return true
-     * @throws UnsupportedEncodingException 异常
      */
-    @RequestMapping(path = "/userReg", method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "title")
+    public ModelAndView getHelpTitle() {
+        return new ModelAndView("title");
+    }
+
+
+    /**
+     * 求生之路2游戏查询全地图记录
+     *
+     * @return true
+     */
+    @RequestMapping(path = "/GameServerInfoCcr", method = {RequestMethod.GET, RequestMethod.POST}, produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public ModelAndView reg(HttpServletRequest httpServletRequest) throws UnsupportedEncodingException {
+    public String getServerGameInfoCcr(HttpServletRequest request) throws IOException {
 
-        Map<String, Object> map = new HashMap<>();
-        LoginValidation loginValidation = new LoginValidation();
-        if (httpServletRequest.getParameter("username") != null && httpServletRequest.getParameter("password") != null && httpServletRequest.getParameter("email") != null && httpServletRequest.getParameter("token") != null && httpServletRequest.getParameter("code") != null) {
-            //获取信息
-            Map<String, Object> metadata = new HashMap<>();
 
-            metadata.put("username", httpServletRequest.getParameter("username"));
-            metadata.put("password", URLEncoder.encode(httpServletRequest.getParameter("password"), "UTF-8"));
-            metadata.put("email", httpServletRequest.getParameter("email"));
-            metadata.put("token", httpServletRequest.getParameter("token"));
-            metadata.put("code", httpServletRequest.getParameter("code"));
-            //token人机验证
-            if (loginValidation.ImgeVerification(metadata.get("token").toString())) {
-                //验证用户是否存在
-                if (accountMethod.accountGetInfo(metadata.get("username").toString()) == null) {
-                    //验证邮箱格式是否正确
-                    if (regularVerify.VerifyEmail(metadata.get("email").toString())) {
-                        //验证码是否有效
-                        if (accountMethod.accountEmailCodeVerify(metadata.get("email").toString(), metadata.get("code").toString())) {
-                            //提交注册信息
-                            if (accountMethod.accountReg(metadata)) {
-                                map.put("key", true);
-                                return new ModelAndView(new MappingJackson2JsonView(), map);
-                            }
-                        }
-                    }
-                }
+        if (request.getParameter("mapName") != null) {
+            String mapName = request.getParameter("mapName");
+            Map<String, String> mapNameInfo = this.l4d2GameCcrList.getL4d2GameMapNameToCcr(mapName);
+
+            return "♛ 兔子窝跳跃服 查询记录 ♛ \n" +
+                    "地图:" + mapNameInfo.get("mapName") + "|玩家:" + mapNameInfo.get("playName") + "|通关记录:" + Integer.parseInt(mapNameInfo.get("time")) / 60 + "分" + Integer.parseInt(mapNameInfo.get("time")) % 60 + "秒\n";
+        } else {
+            List<Map<String, String>> l4d2GameCcrList = this.l4d2GameCcrList.getL4d2GameCcrList();
+            StringBuilder substring = new StringBuilder();
+            substring.append("♛ 兔子窝跳跃服 通关记录列表 ♛ \n");
+            for (Map<String, String> map : l4d2GameCcrList) {
+                substring.append("地图:").append(map.get("mapName")).append("|玩家:").append(map.get("playName")).append("|通关记录:").append(Integer.parseInt(map.get("time")) / 60).append("分").append(Integer.parseInt(map.get("time")) % 60).append("秒\n");
             }
+            return substring.toString();
         }
-        map.put("key", false);
-        return new ModelAndView(new MappingJackson2JsonView(), map);
     }
 
-    /**
-     * 注销接口
-     * @param response 响应体
-     * @return true
-     * @throws IOException 异常
-     */
-    @RequestMapping(value = "/exit", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-    @ResponseBody
-    public ModelAndView exit(HttpServletResponse response) throws IOException {
-        Map<String, Object> map = new HashMap<>();
-        SetCookie setCookie = new SetCookie();
-        Cookie jsessionid = setCookie.SetUserCookie("JSESSIONID", null, false);
-        response.addCookie(jsessionid);
-        map.put("key", true);
-        response.sendRedirect("/");
-        return new ModelAndView(new MappingJackson2JsonView(), map);
-    }
 
     /**
-     * 重置密码接口
-     * @param httpServletRequest 请求体
-     * @param httpServletResponse 请求体
+     * 求生之路2游戏查询全地图记录取消
+     *
      * @return true
-     * @throws Exception 异常
      */
-    @RequestMapping(path = "/resetpwd", method = {RequestMethod.POST}, produces = "application/json;charset=UTF-8")
+    @RequestMapping(path = "/GameServerInfoCcrCancel", method = {RequestMethod.GET, RequestMethod.POST}, produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public ModelAndView resetpwd(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
+    public String getServerGameInfoCcrCancel(HttpServletRequest request) throws IOException {
+        //取消记录
+        if (request.getParameter("mapName") != null && request.getParameter("password") != null) {
 
-        Map<String, Object> map = new HashMap<>();
-        //非空验证
-        if (httpServletRequest.getParameter("email") != null && httpServletRequest.getParameter("code") != null && httpServletRequest.getParameter("newpwd") != null && httpServletRequest.getParameter("token") != null) {
+            String mapName = request.getParameter("mapName").trim();
+            String password = request.getParameter("password").trim();
+            Map<String, String> mapNameInfo = this.l4d2GameCcrList.getL4d2GameMapNameToCcr(mapName);
 
-            Map<String, Object> metadata = new HashMap<>();
-            metadata.put("email", httpServletRequest.getParameter("email"));
-            metadata.put("code", httpServletRequest.getParameter("code"));
-            metadata.put("newpwd", URLEncoder.encode(httpServletRequest.getParameter("newpwd"), "utf-8"));
-            metadata.put("token", httpServletRequest.getParameter("token"));
-            if (accountMethod.accountPasswordReset(metadata)) {
-                map.put("key", true);
-                map.put("message", "重置密码成功!");
-                return new ModelAndView(new MappingJackson2JsonView(), map);
+            if (this.l4d2GameCcrList.getL4d2GameMapNameToCcrCancel(mapName, password)) {
+                return "♛ 兔子窝跳跃服 取消记录 ♛ \n" +
+                        "地图:" + mapNameInfo.get("mapName") + "|玩家:" + mapNameInfo.get("playName") + "|通关记录:" + Integer.parseInt(mapNameInfo.get("time")) / 60 + "分" + Integer.parseInt(mapNameInfo.get("time")) % 60 + "秒\n此地图记录取消成功!";
+            } else {
+                return "♛ 兔子窝跳跃服 取消记录 ♛ \n" +
+                        "地图:" + mapNameInfo.get("mapName") + "|玩家:" + mapNameInfo.get("playName") + "|通关记录:" + Integer.parseInt(mapNameInfo.get("time")) / 60 + "分" + Integer.parseInt(mapNameInfo.get("time")) % 60 + "秒\n此地图记录取消失败 原因:未知!";
             }
+        } else {
+            return "地图名称不能为空!";
         }
-        map.put("key", false);
-        map.put("message", "重置密码失败!");
-        return new ModelAndView(new MappingJackson2JsonView(), map);
     }
 
-
-
-    /**
-     * 登录页面
-     * @return true
-     */
-    @RequestMapping(path = "/React")
-    public ModelAndView getReact() {
-        return new ModelAndView("React");
-    }
 
 }

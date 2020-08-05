@@ -3,30 +3,4 @@
        xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-
-    <bean id="accountLoginRecord" class="com.boollan.Servlet.ApiMethod.Impl.AccountLoginRecord">
-        <property name="ILoginRecordService" ref="recordService"/>
-    </bean>
-    <bean id="accountCdk" class="com.boollan.Servlet.ApiMethod.Impl.AccountCdk">
-        <property name="cdkService" ref="CdkService"/>
-
-    </bean>
-    <bean id="accountBan" class="com.boollan.Servlet.ApiMethod.Impl.AccountBan">
-        <property name="accountUserService" ref="userService"/>
-        <property name="accountBanService" ref="banService"/>
-    </bean>
-
-    <bean id="homeShow" class="com.boollan.Servlet.ApiMethod.Impl.HomeShow">
-        <property name="homeShowService" ref="homeShowService"/>
-    </bean>
-
-
-    <bean id="accountMethod" class="com.boollan.Servlet.ApiMethod.Impl.AccountMethod">
-        <property name="accountEmail" ref="accountEmail"/>
-        <property name="emailCodeService" ref="codeService"/>
-        <property name="loginRecordService" ref="recordService"/>
-        <property name="userService" ref="userService"/>
-    </bean>
-
-
 </beans>

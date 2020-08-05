@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boollan.dao.ICommodityListDao">
+
+    <!--配置实体类数据-->
+    <resultMap id="BaseUserResult" type="com.boollan.domain.CommodityList">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="product_uuid" property="productUuid" jdbcType="VARCHAR"/>
+        <result column="product_name" property="productName" jdbcType="VARCHAR"/>
+        <result column="product_money" property="productMoney" jdbcType="VARCHAR"/>
+        <result column="product_time" property="productTime" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="findAllProductList" resultMap="BaseUserResult">
+        select * from commodity_list
+    </select>
+
+    <select id="findProductByList" resultMap="BaseUserResult">
+        select * from commodity_list where product_uuid=#{productId}
+    </select>
+
+
+
+
+</mapper>

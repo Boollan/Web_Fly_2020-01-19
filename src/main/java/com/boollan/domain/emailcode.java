@@ -1,27 +1,17 @@
 package com.boollan.domain;
 
-import java.util.Date;
+
 
 /**
- * 邮箱验证码实体类
+ * @author Boollan
  */
 public class emailcode {
+
     private Integer id;
     private String email;
-    private Integer isuse;
+    private String isuse;
     private String code;
-    private Date effective;
-
-    @Override
-    public String toString() {
-        return "emailcode{" +
-                "id=" + id +
-                ", email='" + email + '\'' +
-                ", isuse=" + isuse +
-                ", code='" + code + '\'' +
-                ", effective=" + effective +
-                '}';
-    }
+    private String effective;
 
     public Integer getId() {
         return id;
@@ -39,11 +29,11 @@ public class emailcode {
         this.email = email;
     }
 
-    public Integer getIsuse() {
+    public String getIsuse() {
         return isuse;
     }
 
-    public void setIsuse(Integer isuse) {
+    public void setIsuse(String isuse) {
         this.isuse = isuse;
     }
 
@@ -55,11 +45,22 @@ public class emailcode {
         this.code = code;
     }
 
-    public Date getEffective() {
+    public String getEffective() {
         return effective;
     }
 
-    public void setEffective(Date effective) {
+    public void setEffective(String effective) {
         this.effective = effective;
+    }
+
+    @Override
+    public String toString() {
+        return "emailcode{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", isuse='" + isuse + '\'' +
+                ", code='" + code + '\'' +
+                ", effective='" + effective + '\'' +
+                '}';
     }
 }

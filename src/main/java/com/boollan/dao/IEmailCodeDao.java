@@ -3,8 +3,6 @@ package com.boollan.dao;
 import com.boollan.domain.emailcode;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 
 /**
  * @author Boollan
@@ -12,31 +10,25 @@ import java.util.List;
 @Service
 public interface IEmailCodeDao {
 
-    /**
-     * 查询所有
-     *
-     * @return
-     */
-    List<emailcode> findAllEmailCode();
-
 
     /**
-     * @param emailDao 数据集合
-     * @return 返回是否成功
+     * 通关邮箱和验证码查询
+     * @param emailCodeInfo 邮箱
+     * @return 返回的验证码信息
      */
-    emailcode findCodeByEmail(emailcode emailDao);
+    emailcode findEmailCodeByEmail(emailcode emailCodeInfo);
+
+    /**
+     * 添加一个验证码信息
+     * @param emailCodeInfo 验证码信息
+     */
+    void insertEmailCode(emailcode emailCodeInfo);
 
 
     /**
-     * 插入邮箱验证码信息
-     * @param emailDao 验证码内容
+     * 更改验证码信息
+     * @param emailCodeInfo 新的验证码信息
      */
-    void insetCreatEmailCode(emailcode emailDao);
-
-    /**
-     * 更新:更新已验证或未验证
-     * @param account 用户信息
-     */
-    void updateEmailCode(emailcode account);
+    void updateEmailCode(emailcode emailCodeInfo);
 
 }

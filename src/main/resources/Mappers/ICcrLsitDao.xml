@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boollan.dao.ICcrListDao">
+
+    <!--配置实体类数据-->
+    <resultMap id="BaseUserResult" type="com.boollan.domain.ccr_list">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="map_name" property="mapname" jdbcType="VARCHAR"/>
+        <result column="clear_play" property="clearplay" jdbcType="VARCHAR"/>
+        <result column="play_steamid64" property="playsteamid64" jdbcType="VARCHAR"/>
+        <result column="clear_time" property="cleartime" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="findAllCcrList" resultMap="BaseUserResult">
+        select * from ccr_list
+    </select>
+
+    <select id="findMapByName" resultMap="BaseUserResult">
+        select * from ccr_list where map_name=#{mapName}
+    </select>
+
+    <update id="updateMapCcrCancel">
+        update ccr_list set clear_play=#{clearplay},play_steamid64=#{playsteamid64},clear_time=#{cleartime} where map_name=#{mapname}
+    </update>
+
+
+
+</mapper>

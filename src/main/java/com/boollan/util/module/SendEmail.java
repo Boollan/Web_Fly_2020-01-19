@@ -8,18 +8,17 @@ import java.util.Date;
 import java.util.Properties;
 
 
+/**
+ * @author Boollan
+ */
 public class SendEmail {
 
-    //邮箱发送类
 
-    // 发件人的 邮箱 和 密码（替换为自己的邮箱和密码）
-    // PS: 某些邮箱服务器为了增加邮箱本身密码的安全性，给 SMTP 客户端设置了独立密码（有的邮箱称为“授权码”）,
-    //     对于开启了独立密码的邮箱, 这里的邮箱密码必需使用这个独立密码（授权码）。
-    public String myEmailAccount;// = "wyzaoz@163.com"; //账号
-    public String myEmailPassword;//= "xiaowei123";    //密码（或者是授权码）
-    // 发件人邮箱的 SMTP 服务器地址, 必须准确, 不同邮件服务器地址不同, 一般(只是一般, 绝非绝对)格式为: smtp.xxx.com
-    // 网易163邮箱的 SMTP 服务器地址为: smtp.163.com
-    public String myEmailSMTPHost;//= "smtp.163.com";
+    private String myEmailAccount;
+    private String myEmailPassword;
+    private String myEmailSmtpHost;
+    private String myEmailSmtpPort;
+    private String myEmailSslEnable;
 
     public void setMyEmailAccount(String myEmailAccount) {
         this.myEmailAccount = myEmailAccount;
@@ -29,10 +28,17 @@ public class SendEmail {
         this.myEmailPassword = myEmailPassword;
     }
 
-    public void setMyEmailSMTPHost(String myEmailSMTPHost) {
-        this.myEmailSMTPHost = myEmailSMTPHost;
+    public void setMyEmailSmtpHost(String myEmailSmtpHost) {
+        this.myEmailSmtpHost = myEmailSmtpHost;
     }
 
+    public void setMyEmailSmtpPort(String myEmailSmtpPort) {
+        this.myEmailSmtpPort = myEmailSmtpPort;
+    }
+
+    public void setMyEmailSslEnable(String myEmailSslEnable) {
+        this.myEmailSslEnable = myEmailSslEnable;
+    }
     // 收件人邮箱（替换为自己知道的有效邮箱）
 //    public static String receiveMailAccount = "wxzaoz@163.com";
 
@@ -45,10 +51,6 @@ public class SendEmail {
      */
     public void CreateEmail(String receiveMailAccount, String MailName, String title, String body) throws Exception {
         // 1. 创建参数配置, 用于连接邮件服务器的参数配置
-        Properties props = new Properties();                    // 参数配置
-        props.setProperty("mail.transport.protocol", "smtp");   // 使用的协议（JavaMail规范要求）
-        props.setProperty("mail.smtp.host", myEmailSMTPHost);   // 发件人的邮箱的 SMTP 服务器地址
-        props.setProperty("mail.smtp.auth", "true");            // 需要请求认证
 
         // PS: 某些邮箱服务器要求 SMTP 连接需要使用 SSL 安全认证 (为了提高安全性, 邮箱支持SSL连接, 也可以自己开启),
         //     如果无法连接邮件服务器, 仔细查看控制台打印的 log, 如果有有类似 “连接失败, 要求 SSL 安全连接” 等错误,
@@ -57,16 +59,30 @@ public class SendEmail {
         // SMTP 服务器的端口 (非 SSL 连接的端口一般默认为 25, 可以不添加, 如果开启了 SSL 连接,
         //                  需要改为对应邮箱的 SMTP 服务器的端口, 具体可查看对应邮箱服务的帮助,
         //                  QQ邮箱的SMTP(SLL)端口为465或587, 其他邮箱自行去查看)
-        final String smtpPort = "465";
-        props.setProperty("mail.smtp.port", smtpPort);
+         */
+
+        Properties props = new Properties();
+        // 使用的协议（JavaMail规范要求）
+        props.setProperty("mail.transport.protocol", "smtp");
+        // 发件人的邮箱的 SMTP 服务器地址
+        props.setProperty("mail.smtp.host", myEmailSmtpHost);
+        // 需要请求认证
+        props.setProperty("mail.smtp.auth", "true");
+        //设置链接超时
+        props.setProperty("mail.smtp.timeout", "5000");
+        //设置端口
+        props.setProperty("mail.smtp.port", myEmailSmtpPort);
+        //设置SSL端口
+        props.setProperty("mail.smtp.socketFactory.port", myEmailSmtpPort);
+        //是否启用SSL
+        props.setProperty("mail.smtp.ssl.enable", myEmailSslEnable);
         props.setProperty("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
         props.setProperty("mail.smtp.socketFactory.fallback", "false");
-        props.setProperty("mail.smtp.socketFactory.port", smtpPort);
-        */
 
         // 2. 根据配置创建会话对象, 用于和邮件服务器交互
         Session session = Session.getInstance(props);
-        session.setDebug(false);                                 // 设置为debug模式, 可以查看详细的发送 log
+        // 设置为debug模式, 可以查看详细的发送 log
+        session.setDebug(false);
 
         // 3. 创建一封邮件
         MimeMessage message = createMimeMessage(session, myEmailAccount, MailName, receiveMailAccount, title, body);
@@ -92,7 +108,6 @@ public class SendEmail {
 
         // 6. 发送邮件, 发到所有的收件地址, message.getAllRecipients() 获取到的是在创建邮件对象时添加的所有收件人, 抄送人, 密送人
         transport.sendMessage(message, message.getAllRecipients());
-
         // 7. 关闭连接
         transport.close();
     }

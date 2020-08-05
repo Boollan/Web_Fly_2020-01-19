@@ -1,10 +1,33 @@
 <component name="ProjectDictionaryState">
   <dictionary name="wyzao">
     <words>
+      <w>addviporop</w>
       <w>boollan</w>
+      <w>cancelviporop</w>
+      <w>clearplay</w>
+      <w>cleartime</w>
       <w>controllerpanel</w>
+      <w>emailcode</w>
+      <w>generateviporop</w>
+      <w>gethttprequestgetsteamidtoname</w>
+      <w>intime</w>
+      <w>isuse</w>
       <w>jsdelivr</w>
+      <w>keynumber</w>
+      <w>mapname</w>
+      <w>membersbuy</w>
+      <w>motd</w>
+      <w>opbuy</w>
+      <w>personaname</w>
+      <w>playsteamid</w>
+      <w>smtp</w>
+      <w>steamid</w>
       <w>uikit</w>
+      <w>ulkit</w>
+      <w>userinfo</w>
+      <w>viewlist</w>
+      <w>vipbuy</w>
+      <w>xmlhttp</w>
     </words>
   </dictionary>
 </component>

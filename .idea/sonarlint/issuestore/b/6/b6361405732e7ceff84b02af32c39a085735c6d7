@@ -1,7 +1,0 @@
-
-r	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‘”แไýÿÿÿÿ8ว่เ.
-m	java:S117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(—ํ8ว่เ.
-m	java:S117 "QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ฉฆ๕8ว่เ.
-r	java:S117!"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ยฌ้þÿÿÿÿ8ว่เ.
-l	java:S117""QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ฤฅ๑f8ว่เ.
-v	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ค•8ว่เ.

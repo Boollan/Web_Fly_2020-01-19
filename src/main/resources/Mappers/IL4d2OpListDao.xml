@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boollan.dao.IL4d2OpListDao">
+
+    <!--配置实体类数据-->
+    <resultMap id="BaseUserResult" type="com.boollan.domain.L4d2OpList">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="steamid32" property="steamid32" jdbcType="VARCHAR"/>
+        <result column="datetime" property="gamename" jdbcType="VARCHAR"/>
+        <result column="datetimeov" property="datetimeov" jdbcType="VARCHAR"/>
+
+    </resultMap>
+
+    <select id="findAllL4D2OpList" resultType="com.boollan.domain.L4d2OpList">
+        select * from l4d2_op_list
+    </select>
+
+    <select id="findOpBySteamId32" resultType="com.boollan.domain.L4d2OpList">
+        select * from l4d2_op_list where steamid32=#{SteamId32}
+    </select>
+    <insert id="insertOpInfo" parameterType="com.boollan.domain.L4d2OpList">
+        insert into l4d2_op_list(steamid32,gamename,datetimeov)values(#{steamid32},#{gamename},#{datetimeov})
+    </insert>
+    <update id="upDateL4d2OpListInfo" parameterType="com.boollan.domain.L4d2OpList">
+        update l4d2_op_list set datetimeov=#{datetimeov} where steamid32=#{steamid32}
+    </update>
+
+
+
+</mapper>

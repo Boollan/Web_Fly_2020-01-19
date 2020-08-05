@@ -44,27 +44,22 @@
 
 
     <!--配置服务器邮箱的发送类-->
-    <bean name="sendEmail" class="com.boollan.util.module.SendEmail">
-        <property name="myEmailSMTPHost" value="${mail.SMTPHost}"/>
+    <bean id="sendEmail" class="com.boollan.util.module.SendEmail">
+        <property name="myEmailSmtpHost" value="${mail.SMTPHost}"/>
         <property name="myEmailAccount" value="${mail.AccountMail}"/>
         <property name="myEmailPassword" value="${mail.PasswordMail}"/>
+        <property name="myEmailSmtpPort" value="${mail.PortMail}"/>
+        <property name="myEmailSslEnable" value="${mail.SSLMail}"/>
     </bean>
+
     <!--默认发送邮件配置-->
-    <bean name="accountEmail" class="com.boollan.Servlet.ApiMethod.Impl.AccountEmail">
+    <bean id="emailMessageSend" class="com.boollan.service.impl.EmailMessageSend">
         <property name="sendEmail" ref="sendEmail"/>
         <!--以下value参数可以进行任意更改-->
-        <property name="email_Title" value="${mailContent.title}"/>
-        <property name="email_SendName" value="${mailContent.SendName}"/>
-        <property name="email_boey" value="${mailContent.body}"/>
+        <property name="emailSendName" value="${mailMessage.sendName}"/>
+        <property name="emailTitle" value="${mailMessage.title}"/>
+        <property name="emailBody" value="${mailMessage.body}"/>
     </bean>
-    <!--实体类配置-->
-    <bean class="com.boollan.domain.account_ban" name="account_ban"/>
-    <bean class="com.boollan.domain.account_cdk" name="account_cdk"/>
-    <bean class="com.boollan.domain.account_user" name="account_user"/>
-    <bean class="com.boollan.domain.emailcode" name="emailcode"/>
-    <bean class="com.boollan.domain.home_show" name="home_show"/>
-    <bean class="com.boollan.domain.login_record" name="login_record"/>
-
 
     <!--配置自动扫描-->
     <bean:component-scan base-package="com.*"/>

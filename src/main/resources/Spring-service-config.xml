@@ -1,27 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-    <bean id="userService" class="com.boollan.service.impl.AccountUserService">
-        <property name="userDao" ref="IAccountUserDao"/>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:bean="http://www.springframework.org/schema/context" xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!--读取数据库配置文件-->
+    <context:property-placeholder location="classpath:db.properties"/>
+
+    <bean id="memberSystem" class="com.boollan.service.impl.MemberSystem">
+        <property name="il4d2OpCdkDao" ref="IL4d2OpCdkDao"/>
+        <property name="il4d2OpListDao" ref="IL4d2OpListDao"/>
+        <property name="il4d2VipCdkDao" ref="IL4d2VipCdkDao"/>
+        <property name="il4d2VipListDao" ref="IL4d2VipListDao"/>
     </bean>
 
-    <bean id="banService" class="com.boollan.service.impl.AccountBanService">
-        <property name="banDao" ref="IAccountBanDao"/>
+    <bean id="memberSystemAdmin" class="com.boollan.service.impl.MemberSystemAdmin">
+        <property name="il4d2OpCdkDao" ref="IL4d2OpCdkDao"/>
+        <property name="il4d2OpListDao" ref="IL4d2OpListDao"/>
+        <property name="il4d2VipListDao" ref="IL4d2VipListDao"/>
+        <property name="il4d2VipCdkDao" ref="IL4d2VipCdkDao"/>
+        <property name="userInformationSystem" ref="informationSystem"/>
+        <property name="il4D2BuyListDao" ref="IL4d2BuyListDao"/>
+        <property name="il4d2BuyCdkDao" ref="IL4d2BuyCdkDao"/>
+        <!--注入密钥-->
+        <property name="adminPassword" value="${adminPassword}"/>
     </bean>
 
-    <bean id="CdkService" class="com.boollan.service.impl.AccountCdkService">
-        <property name="cdkDao" ref="IAccountCdkDao"/>
+    <bean class="com.boollan.service.impl.L4d2GameInfo" id="l4d2GameInfo">
+        <property name="crListDao" ref="ICcrListDao"/>
+        <property name="adminPassword" value="${adminPassword}"/>
     </bean>
 
-    <bean id="codeService" class="com.boollan.service.impl.EmailCodeService">
-        <property name="codeDao" ref="IEmailCodeDao"/>
+    <bean class="com.boollan.service.impl.MemberPaymentSystem" id="paymentSystem">
+        <property name="url" value="${Payment.url}"/>
+        <property name="callUrl" value="${Payment.callUrl}"/>
+        <property name="returnUrl" value="${Payment.returnUrl}"/>
+        <property name="codePayId" value="${Payment.codePayId}"/>
+        <property name="token" value="${Payment.token}"/>
+        <property name="key" value="${Payment.key}"/>
     </bean>
-    <bean id="homeShowService" class="com.boollan.service.impl.HomeShowService">
-        <property name="showDao" ref="IHomeShowDao"/>
+
+    <bean class="com.boollan.service.impl.EmailCode" id="emailCode" >
+        <property name="emailCodeDao" ref="IEmailCodeDao"/>
+        <property name="emailMessageSend" ref="emailMessageSend"/>
     </bean>
-    <bean id="recordService" class="com.boollan.service.impl.LoginRecordService">
-        <property name="recordDao" ref="ILoginRecordDao"/>
+
+    <bean class="com.boollan.service.impl.UserInformationSystem" id="informationSystem">
+        <property name="userInfo" ref="IUserInfoDao"/>
+        <property name="emailCode" ref="emailCode"/>
+        <property name="memberSystem" ref="memberSystemAdmin"/>
     </bean>
+
 
 </beans>

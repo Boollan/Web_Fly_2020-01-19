@@ -15,8 +15,20 @@
 
         <div class="uk-text-center" style="font-size: 16px"> 网站公告</div>
 
+        <div class="uk-alert-primary" uk-alert>
+            <a class="uk-alert-close" uk-close></a>
+            <p>QQ交流群:527755457</p>
+        </div>
 
+        <div class="uk-alert-primary" uk-alert>
+            <a class="uk-alert-close" uk-close></a>
+            <p>卡密购买:527755457</p>
+        </div>
 
+        <div class="uk-alert-primary" uk-alert>
+            <a class="uk-alert-close" uk-close></a>
+            <p>客服:527755457</p>
+        </div>
 
         <div id="help_notice" uk-offcanvas>
             <div class="uk-offcanvas-bar">

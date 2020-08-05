@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
     <display-name>Archetype Created Web Application</display-name>
 
-    <!--用于解决无法直接方法Action路径-->
+<!--    用于解决无法直接方法Action路径-->
     <welcome-file-list>
         <welcome-file>/</welcome-file>
     </welcome-file-list>
@@ -57,8 +57,8 @@
     </servlet-mapping>
 
     <!--404页面配置-->
-    <error-page>
-        <location>/WEB-INF/page/error/404/index.jsp</location>
-    </error-page>
+<!--    <error-page>-->
+<!--        <location>/WEB-INF/page/error/404/index.jsp</location>-->
+<!--    </error-page>-->
 
 </web-app>

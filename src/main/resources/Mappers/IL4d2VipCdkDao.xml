@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.boollan.dao.IL4d2VipCdkDao">
+
+    <!--配置实体类数据-->
+    <resultMap id="BaseUserResult" type="com.boollan.domain.L4d2VipCdk">
+        <id column="id" property="id" jdbcType="VARCHAR"/>
+        <result column="cdk" property="cdk" jdbcType="VARCHAR"/>
+        <result column="datetime" property="datetime" jdbcType="VARCHAR"/>
+        <result column="isuse" property="isuse" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <select id="findAllL4D2VipCdk" resultType="com.boollan.domain.L4d2VipCdk">
+        select * from l4d2_vip_cdk
+    </select>
+
+    <select id="findCDKByName" resultType="com.boollan.domain.L4d2VipCdk">
+        select * from l4d2_vip_cdk where cdk=#{cdk}
+    </select>
+    <insert id="insertCdk" parameterType="com.boollan.domain.L4d2VipCdk">
+        insert into l4d2_vip_cdk(cdk,datetime,isuse)values(#{cdk},#{datetime},#{isuse})
+    </insert>
+    <update id="upDateL4d2IsUse" parameterType="com.boollan.domain.L4d2VipCdk">
+        update l4d2_vip_cdk set datetime=#{datetime},isuse=#{isuse} where cdk=#{cdk}
+    </update>
+
+
+
+</mapper>

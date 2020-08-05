@@ -35,57 +35,48 @@
         </property>
     </bean>
 
-    <!--依赖注入：由于无法使用注解方式注入，只能使用XML方式-->
-    <bean class="com.boollan.controller.AdminInfo">
-        <property name="accountMethod" ref="accountMethod"/>
-        <property name="accountUserService" ref="userService"/>
-        <property name="accountCdk" ref="accountCdk"/>
-        <property name="accountCdkService" ref="CdkService"/>
-        <property name="recordService" ref="recordService"/>
-        <property name="homeShow" ref="homeShow"/>
-        <property name="homeShowService" ref="homeShowService"/>
+    <!--配置文件上传 必须指定ID为：multipartResolver（否则无法接收参数）-->
+    <!--MVC配置文件上传解析器-->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="42949672960 "/>
+        <property name="defaultEncoding" value="UTF-8"/>
     </bean>
-
-    <!--    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">-->
-    <!--        <property name="maxUploadSize" value="10485760"/>-->
-    <!--        <property name="defaultEncoding" value="UTF-8"/>-->
-    <!--    </bean>-->
 
     <!--表现层 Bean-->
-    <bean class="com.boollan.controller.FileUploadController"/>
-    <bean class="com.boollan.controller.Account"/>
-    <bean class="com.boollan.controller.Admin"/>
+
     <bean class="com.boollan.controller.HomeInfo">
-        <property name="homeShow" ref="homeShow"/>
-        <property name="accountMethod" ref="accountMethod"/>
-        <property name="regularVerify" ref="regularVerify"/>
+        <property name="l4d2GameCcrList" ref="l4d2GameInfo"/>
     </bean>
-    <bean class="com.boollan.controller.AccountInfo">
-        <property name="accountMethod" ref="accountMethod"/>
-        <property name="accountCdk" ref="accountCdk"/>
-        <property name="accountUserService" ref="userService"/>
-        <property name="accountCdkService" ref="CdkService"/>
+    <bean class="com.boollan.controller.Membersbuy">
+        <property name="iMemberSystem" ref="memberSystem"/>
+    </bean>
+    <bean class="com.boollan.controller.Admin">
+        <property name="memberSystemAdmin" ref="memberSystemAdmin"/>
+        <property name="iUserInformationSystem" ref="informationSystem"/>
+    </bean>
+    <bean class="com.boollan.controller.Payment">
+        <property name="payment" ref="paymentSystem"/>
+        <property name="commodity" ref="ICommodityListDao"/>
+        <property name="il4d2VipListDao" ref="IL4d2VipListDao"/>
+        <property name="il4d2OpListDao" ref="IL4d2OpListDao"/>
     </bean>
 
+    <bean class="com.boollan.controller.UserInfo" id="userInfo">
+        <property name="userInfo" ref="informationSystem"/>
+        <property name="userEmail" ref="emailCode"/>
+    </bean>
+
+    <!--Mobile-->
+    <bean class="com.boollan.controller.mobile.UiHome"/>
     <!--静态资源配置-->
     <mvc:resources mapping="/bootstrap-3.3.7-dist/**" location="/WEB-INF/page/bootstrap-3.3.7-dist/"/>
+    <mvc:resources mapping="/frozenui-2.0.0/**" location="/WEB-INF/page/frozenui-2.0.0/"/>
+    <mvc:resources mapping="/l4d2/**" location="/WEB-INF/page/l4d2/"/>
     <mvc:resources mapping="/js/**" location="/WEB-INF/page/js/"/>
-    <mvc:resources mapping="/upload/**" location="/WEB-INF/page/upload/"/>
     <!--404页面资源配置-->
     <mvc:resources mapping="/error/**" location="/WEB-INF/page/error/404/"/>
 
-    <!-- 新面板静态资源配置-->
-    <mvc:resources mapping="/newPanel/css/**" location="/WEB-INF/page/VuePanel/css"/>
-    <mvc:resources mapping="/newPanel/js/**" location="/WEB-INF/page/VuePanel/js/"/>
-    <mvc:resources mapping="/newPanel/upload/**" location="/WEB-INF/page/VuePanel/resource/upload/"/>
     <!--用户信息-->
-    <bean class="com.boollan.controllerpanel.UserInfo"/>
-    <!--管理面板-->
-    <bean class="com.boollan.controllerpanel.AdminInfo"/>
-    <!--投诉建议-->
-    <bean class="com.boollan.controllerpanel.ComplaintsInfo"/>
-
-
 
     <!-- 定义跳转的文件的前后缀 ，视图模式配置 -->
     <bean id="viewResolver"
@@ -93,12 +84,6 @@
         <!-- 前缀和后缀，变成一个可用的url地址 -->
         <property name="prefix" value="/WEB-INF/page/"/>
         <property name="suffix" value=".jsp"/>
-    </bean>
-
-    <!--MVC配置文件上传解析器-->
-    <bean class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-        <property name="defaultEncoding" value="UTF-8"/>
-        <property name="maxUploadSize" value="102400000"/>
     </bean>
 
 
